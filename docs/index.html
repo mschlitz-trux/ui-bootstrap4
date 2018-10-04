@@ -21,7 +21,6 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="assets/rainbow.css"/>
     <link rel="stylesheet" href="assets/demo.css"/>
-    <link rel="stylesheet" href="svg-icon.css"/>
     <link rel="author" href="https://github.com/angular-ui/bootstrap/graphs/contributors">
 </head>
 <body class="ng-cloak" ng-controller="MainCtrl">
@@ -214,7 +213,7 @@
                         * Some directives have a config service that follows the next pattern: <code>uibDirectiveConfig</code>. The service's settings use camel case. The services can be configured in a <code>.config</code> function for example.
                     </p>
                 </section>
-                
+
                     <section id="accordion">
                         <div class="page-header">
                           <h1>Accordion<small>
@@ -472,7 +471,7 @@ Add the ability to override the template used on the component.</p>
     isFirstDisabled: false
   };
 });</script>
-                
+
                     <section id="alert">
                         <div class="page-header">
                           <h1>Alert<small>
@@ -574,7 +573,7 @@ Add the ability to override the template used in the component.</p>
     $scope.alerts.splice(index, 1);
   };
 });</script>
-                
+
                     <section id="buttons">
                         <div class="page-header">
                           <h1>Buttons<small>
@@ -773,7 +772,7 @@ Event used to toggle the buttons.</p>
     });
   });
 });</script>
-                
+
                     <section id="carousel">
                         <div class="page-header">
                           <h1>Carousel<small>
@@ -1044,7 +1043,7 @@ Add the ability to override the template used on the component.</p>
   }
 });
 </script>
-                
+
                     <section id="collapse">
                         <div class="page-header">
                           <h1>Collapse<small>
@@ -1228,7 +1227,7 @@ An optional attribute that permit to collapse horizontally.</p>
   $scope.isCollapsedHorizontal = false;
 });
 </script>
-                
+
                     <section id="dateparser">
                         <div class="page-header">
                           <h1>Dateparser<small>
@@ -1443,7 +1442,7 @@ Parses the long form of the era (<code>Anno Domini</code> or <code>Before Christ
   $scope.date = new Date();
 });
 </script>
-                
+
                     <section id="datepicker">
                         <div class="page-header">
                           <h1>Datepicker<small>
@@ -1832,7 +1831,7 @@ Number of columns displayed in year selection.</p>
   }
 });
 </script>
-                
+
                     <section id="datepickerPopup">
                         <div class="page-header">
                           <h1>Datepicker Popup<small>
@@ -2280,7 +2279,7 @@ The format for displayed dates. This string can take string literals by surround
   }
 });
 </script>
-                
+
                     <section id="dropdown">
                         <div class="page-header">
                           <h1>Dropdown<small>
@@ -2289,7 +2288,7 @@ The format for displayed dates. This string can take string literals by surround
                           </div>
                           <div class="row">
                             <div class="col-md-6 show-grid">
-                                
+
 <div ng-controller="DropdownCtrl">
     <div>
         <!-- Simple dropdown -->
@@ -2740,7 +2739,7 @@ Class to apply when the dropdown is open.</p>
   $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 });
 </script>
-                
+
                     <section id="modal">
                         <div class="page-header">
                           <h1>Modal<small>
@@ -3024,7 +3023,7 @@ Also, the <code>$close</code> and <code>$dismiss</code> methods returns true if 
   $ctrl.animationsEnabled = true;
 
   $ctrl.open = function (size, parentSelector) {
-    var parentElem = parentSelector ? 
+    var parentElem = parentSelector ?
       angular.element($document[0].querySelector(&#x27;.modal-demo &#x27; + parentSelector)) : undefined;
     var modalInstance = $uibModal.open({
       animation: $ctrl.animationsEnabled,
@@ -3075,7 +3074,7 @@ Also, the <code>$close</code> and <code>$dismiss</code> methods returns true if 
       templateUrl: &#x27;stackedModal.html&#x27;,
       size: &#x27;sm&#x27;,
       controller: function($scope) {
-        $scope.name = &#x27;bottom&#x27;;  
+        $scope.name = &#x27;bottom&#x27;;
       }
     });
 
@@ -3086,7 +3085,7 @@ Also, the <code>$close</code> and <code>$dismiss</code> methods returns true if 
       templateUrl: &#x27;stackedModal.html&#x27;,
       size: &#x27;sm&#x27;,
       controller: function($scope) {
-        $scope.name = &#x27;top&#x27;;  
+        $scope.name = &#x27;top&#x27;;
       }
     });
   };
@@ -3157,7 +3156,7 @@ angular.module(&#x27;ui.bootstrap.demo&#x27;).component(&#x27;modalComponent&#x2
   $ctrl.animationsEnabled = true;
 
   $ctrl.open = function (size, parentSelector) {
-    var parentElem = parentSelector ? 
+    var parentElem = parentSelector ?
       angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
     var modalInstance = $uibModal.open({
       animation: $ctrl.animationsEnabled,
@@ -3208,7 +3207,7 @@ angular.module(&#x27;ui.bootstrap.demo&#x27;).component(&#x27;modalComponent&#x2
       templateUrl: 'stackedModal.html',
       size: 'sm',
       controller: function($scope) {
-        $scope.name = 'bottom';  
+        $scope.name = 'bottom';
       }
     });
 
@@ -3219,7 +3218,7 @@ angular.module(&#x27;ui.bootstrap.demo&#x27;).component(&#x27;modalComponent&#x2
       templateUrl: 'stackedModal.html',
       size: 'sm',
       controller: function($scope) {
-        $scope.name = 'top';  
+        $scope.name = 'top';
       }
     });
   };
@@ -3277,7 +3276,7 @@ angular.module('ui.bootstrap.demo').component('modalComponent', {
   }
 });
 </script>
-                
+
                     <section id="pager">
                         <div class="page-header">
                           <h1>Pager<small>
@@ -3389,7 +3388,7 @@ Total number of items in all pages.</p>
   $scope.currentPage = 4;
 });
 </script>
-                
+
                     <section id="pagination">
                         <div class="page-header">
                           <h1>Pagination<small>
@@ -3611,7 +3610,7 @@ Total number of items in all pages.</p>
   $scope.bigCurrentPage = 1;
 });
 </script>
-                
+
                     <section id="popover">
                         <div class="page-header">
                           <h1>Popover<small>
@@ -3880,7 +3879,7 @@ Provide a set of defaults for certain tooltip and popover attributes. Currently 
     ],
     selected: &#x27;top&#x27;
   };
-  
+
   $scope.htmlPopover = $sce.trustAsHtml(&#x27;&lt;b style=&quot;color: red&quot;&gt;I can&lt;/b&gt; have &lt;div class=&quot;label label-success&quot;&gt;HTML&lt;/div&gt; content&#x27;);
 });
 </code></pre>
@@ -3914,11 +3913,11 @@ Provide a set of defaults for certain tooltip and popover attributes. Currently 
     ],
     selected: 'top'
   };
-  
+
   $scope.htmlPopover = $sce.trustAsHtml('<b style="color: red">I can</b> have <div class="label label-success">HTML</div> content');
 });
 </script>
-                
+
                     <section id="position">
                         <div class="page-header">
                           <h1>Position<small>
@@ -4396,7 +4395,7 @@ The placement for the element.</p>
       $scope.elemVals.positionElements = $uibPosition.positionElements(btnEl, divEl, 'auto bottom-left');
     };
 });</script>
-                
+
                     <section id="progressbar">
                         <div class="page-header">
                           <h1>Progressbar<small>
@@ -4417,13 +4416,13 @@ The placement for the element.</p>
     <hr />
     <h3>Dynamic <button type="button" class="btn btn-sm btn-primary" ng-click="random()">Randomize</button></h3>
     <uib-progressbar max="max" value="dynamic"><span style="color:white; white-space:nowrap;">{{dynamic}} / {{max}}</span></uib-progressbar>
-    
+
     <small><em>No animation</em></small>
     <uib-progressbar animate="false" value="dynamic" type="success"><b>{{dynamic}}%</b></uib-progressbar>
 
     <small><em>Object (changes type based on value)</em></small>
     <uib-progressbar class="active" value="dynamic" type="{{type}}" striped="true">{{type}} <i ng-show="showWarning">!!! Watch out !!!</i></uib-progressbar>
-    
+
     <hr />
     <h3>Stacked <button type="button" class="btn btn-sm btn-primary" ng-click="randomStacked()">Randomize</button></h3>
     <uib-progress><uib-bar ng-repeat="bar in stacked track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%</span></uib-bar></uib-progress>
@@ -4537,13 +4536,13 @@ Title to use as label (for accessibility).</p>
     &lt;hr /&gt;
     &lt;h3&gt;Dynamic &lt;button type=&quot;button&quot; class=&quot;btn btn-sm btn-primary&quot; ng-click=&quot;random()&quot;&gt;Randomize&lt;/button&gt;&lt;/h3&gt;
     &lt;uib-progressbar max=&quot;max&quot; value=&quot;dynamic&quot;&gt;&lt;span style=&quot;color:white; white-space:nowrap;&quot;&gt;{{dynamic}} / {{max}}&lt;/span&gt;&lt;/uib-progressbar&gt;
-    
+
     &lt;small&gt;&lt;em&gt;No animation&lt;/em&gt;&lt;/small&gt;
     &lt;uib-progressbar animate=&quot;false&quot; value=&quot;dynamic&quot; type=&quot;success&quot;&gt;&lt;b&gt;{{dynamic}}%&lt;/b&gt;&lt;/uib-progressbar&gt;
 
     &lt;small&gt;&lt;em&gt;Object (changes type based on value)&lt;/em&gt;&lt;/small&gt;
     &lt;uib-progressbar class=&quot;active&quot; value=&quot;dynamic&quot; type=&quot;{{type}}&quot; striped=&quot;true&quot;&gt;{{type}} &lt;i ng-show=&quot;showWarning&quot;&gt;!!! Watch out !!!&lt;/i&gt;&lt;/uib-progressbar&gt;
-    
+
     &lt;hr /&gt;
     &lt;h3&gt;Stacked &lt;button type=&quot;button&quot; class=&quot;btn btn-sm btn-primary&quot; ng-click=&quot;randomStacked()&quot;&gt;Randomize&lt;/button&gt;&lt;/h3&gt;
     &lt;uib-progress&gt;&lt;uib-bar ng-repeat=&quot;bar in stacked track by $index&quot; value=&quot;bar.value&quot; type=&quot;{{bar.type}}&quot;&gt;&lt;span ng-hide=&quot;bar.value &lt; 5&quot;&gt;{{bar.value}}%&lt;/span&gt;&lt;/uib-bar&gt;&lt;/uib-progress&gt;
@@ -4641,7 +4640,7 @@ Title to use as label (for accessibility).</p>
   $scope.randomStacked();
 });
 </script>
-                
+
                     <section id="rating">
                         <div class="page-header">
                           <h1>Rating<small>
@@ -4806,7 +4805,7 @@ A variable used in the template to specify the state for unselected icons.</p>
   ];
 });
 </script>
-                
+
                     <section id="tabs">
                         <div class="page-header">
                           <h1>Tabs<small>
@@ -5107,7 +5106,7 @@ A URL representing the location of a template to use for the tab heading.</p>
   };
 });
 </script>
-                
+
                     <section id="timepicker">
                         <div class="page-header">
                           <h1>Timepicker<small>
@@ -5122,7 +5121,7 @@ A URL representing the location of a template to use for the tab heading.</p>
 
   <pre class="alert alert-info">Time is: {{mytime | date:'shortTime' }}</pre>
 
-  <div class="row"> 
+  <div class="row">
     <div class="col-xs-6">
         Hours step is:
       <select class="form-control" ng-model="hstep" ng-options="opt for opt in options.hstep"></select>
@@ -5275,7 +5274,7 @@ Add the ability to override the template used on the component.</p>
 
   &lt;pre class=&quot;alert alert-info&quot;&gt;Time is: {{mytime | date:&#x27;shortTime&#x27; }}&lt;/pre&gt;
 
-  &lt;div class=&quot;row&quot;&gt; 
+  &lt;div class=&quot;row&quot;&gt;
     &lt;div class=&quot;col-xs-6&quot;&gt;
         Hours step is:
       &lt;select class=&quot;form-control&quot; ng-model=&quot;hstep&quot; ng-options=&quot;opt for opt in options.hstep&quot;&gt;&lt;/select&gt;
@@ -5368,7 +5367,7 @@ Add the ability to override the template used on the component.</p>
   };
 });
 </script>
-                
+
                     <section id="tooltip">
                         <div class="page-header">
                           <h1>Tooltip<small>
@@ -5720,7 +5719,7 @@ Provide a set of defaults for certain tooltip and popover attributes. Currently 
   };
 });
 </script>
-                
+
                     <section id="typeahead">
                         <div class="page-header">
                           <h1>Typeahead<small>
@@ -6127,7 +6126,7 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
   $scope.statesWithFlags = [{'name':'Alabama','flag':'5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png'},{'name':'Alaska','flag':'e/e6/Flag_of_Alaska.svg/43px-Flag_of_Alaska.svg.png'},{'name':'Arizona','flag':'9/9d/Flag_of_Arizona.svg/45px-Flag_of_Arizona.svg.png'},{'name':'Arkansas','flag':'9/9d/Flag_of_Arkansas.svg/45px-Flag_of_Arkansas.svg.png'},{'name':'California','flag':'0/01/Flag_of_California.svg/45px-Flag_of_California.svg.png'},{'name':'Colorado','flag':'4/46/Flag_of_Colorado.svg/45px-Flag_of_Colorado.svg.png'},{'name':'Connecticut','flag':'9/96/Flag_of_Connecticut.svg/39px-Flag_of_Connecticut.svg.png'},{'name':'Delaware','flag':'c/c6/Flag_of_Delaware.svg/45px-Flag_of_Delaware.svg.png'},{'name':'Florida','flag':'f/f7/Flag_of_Florida.svg/45px-Flag_of_Florida.svg.png'},{'name':'Georgia','flag':'5/54/Flag_of_Georgia_%28U.S._state%29.svg/46px-Flag_of_Georgia_%28U.S._state%29.svg.png'},{'name':'Hawaii','flag':'e/ef/Flag_of_Hawaii.svg/46px-Flag_of_Hawaii.svg.png'},{'name':'Idaho','flag':'a/a4/Flag_of_Idaho.svg/38px-Flag_of_Idaho.svg.png'},{'name':'Illinois','flag':'0/01/Flag_of_Illinois.svg/46px-Flag_of_Illinois.svg.png'},{'name':'Indiana','flag':'a/ac/Flag_of_Indiana.svg/45px-Flag_of_Indiana.svg.png'},{'name':'Iowa','flag':'a/aa/Flag_of_Iowa.svg/44px-Flag_of_Iowa.svg.png'},{'name':'Kansas','flag':'d/da/Flag_of_Kansas.svg/46px-Flag_of_Kansas.svg.png'},{'name':'Kentucky','flag':'8/8d/Flag_of_Kentucky.svg/46px-Flag_of_Kentucky.svg.png'},{'name':'Louisiana','flag':'e/e0/Flag_of_Louisiana.svg/46px-Flag_of_Louisiana.svg.png'},{'name':'Maine','flag':'3/35/Flag_of_Maine.svg/45px-Flag_of_Maine.svg.png'},{'name':'Maryland','flag':'a/a0/Flag_of_Maryland.svg/45px-Flag_of_Maryland.svg.png'},{'name':'Massachusetts','flag':'f/f2/Flag_of_Massachusetts.svg/46px-Flag_of_Massachusetts.svg.png'},{'name':'Michigan','flag':'b/b5/Flag_of_Michigan.svg/45px-Flag_of_Michigan.svg.png'},{'name':'Minnesota','flag':'b/b9/Flag_of_Minnesota.svg/46px-Flag_of_Minnesota.svg.png'},{'name':'Mississippi','flag':'4/42/Flag_of_Mississippi.svg/45px-Flag_of_Mississippi.svg.png'},{'name':'Missouri','flag':'5/5a/Flag_of_Missouri.svg/46px-Flag_of_Missouri.svg.png'},{'name':'Montana','flag':'c/cb/Flag_of_Montana.svg/45px-Flag_of_Montana.svg.png'},{'name':'Nebraska','flag':'4/4d/Flag_of_Nebraska.svg/46px-Flag_of_Nebraska.svg.png'},{'name':'Nevada','flag':'f/f1/Flag_of_Nevada.svg/45px-Flag_of_Nevada.svg.png'},{'name':'New Hampshire','flag':'2/28/Flag_of_New_Hampshire.svg/45px-Flag_of_New_Hampshire.svg.png'},{'name':'New Jersey','flag':'9/92/Flag_of_New_Jersey.svg/45px-Flag_of_New_Jersey.svg.png'},{'name':'New Mexico','flag':'c/c3/Flag_of_New_Mexico.svg/45px-Flag_of_New_Mexico.svg.png'},{'name':'New York','flag':'1/1a/Flag_of_New_York.svg/46px-Flag_of_New_York.svg.png'},{'name':'North Carolina','flag':'b/bb/Flag_of_North_Carolina.svg/45px-Flag_of_North_Carolina.svg.png'},{'name':'North Dakota','flag':'e/ee/Flag_of_North_Dakota.svg/38px-Flag_of_North_Dakota.svg.png'},{'name':'Ohio','flag':'4/4c/Flag_of_Ohio.svg/46px-Flag_of_Ohio.svg.png'},{'name':'Oklahoma','flag':'6/6e/Flag_of_Oklahoma.svg/45px-Flag_of_Oklahoma.svg.png'},{'name':'Oregon','flag':'b/b9/Flag_of_Oregon.svg/46px-Flag_of_Oregon.svg.png'},{'name':'Pennsylvania','flag':'f/f7/Flag_of_Pennsylvania.svg/45px-Flag_of_Pennsylvania.svg.png'},{'name':'Rhode Island','flag':'f/f3/Flag_of_Rhode_Island.svg/32px-Flag_of_Rhode_Island.svg.png'},{'name':'South Carolina','flag':'6/69/Flag_of_South_Carolina.svg/45px-Flag_of_South_Carolina.svg.png'},{'name':'South Dakota','flag':'1/1a/Flag_of_South_Dakota.svg/46px-Flag_of_South_Dakota.svg.png'},{'name':'Tennessee','flag':'9/9e/Flag_of_Tennessee.svg/46px-Flag_of_Tennessee.svg.png'},{'name':'Texas','flag':'f/f7/Flag_of_Texas.svg/45px-Flag_of_Texas.svg.png'},{'name':'Utah','flag':'f/f6/Flag_of_Utah.svg/45px-Flag_of_Utah.svg.png'},{'name':'Vermont','flag':'4/49/Flag_of_Vermont.svg/46px-Flag_of_Vermont.svg.png'},{'name':'Virginia','flag':'4/47/Flag_of_Virginia.svg/44px-Flag_of_Virginia.svg.png'},{'name':'Washington','flag':'5/54/Flag_of_Washington.svg/46px-Flag_of_Washington.svg.png'},{'name':'West Virginia','flag':'2/22/Flag_of_West_Virginia.svg/46px-Flag_of_West_Virginia.svg.png'},{'name':'Wisconsin','flag':'2/22/Flag_of_Wisconsin.svg/45px-Flag_of_Wisconsin.svg.png'},{'name':'Wyoming','flag':'b/bc/Flag_of_Wyoming.svg/43px-Flag_of_Wyoming.svg.png'}];
 });
 </script>
-                
+
             </div>
         </div>
     </div><!-- /.container -->
@@ -6206,10 +6205,10 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
             <h4 style="text-align: center;">{{buildErrorText}}</h4>
         </div>
         <div ng-hide="buildErrorText || isOldBrowser()">
-            
-              
+
+
                 <div class="btn-group" style="width: 100%;">
-              
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.collapse}"
@@ -6218,9 +6217,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('collapse', module.collapse)">
                   Collapse
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.tabindex}"
@@ -6229,9 +6228,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('tabindex', module.tabindex)">
                   Tabindex
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.accordion}"
@@ -6240,13 +6239,13 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('accordion', module.accordion)">
                   Accordion
               </button>
-              
+
                 </div>
-              
-            
-              
+
+
+
                 <div class="btn-group" style="width: 100%;">
-              
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.alert}"
@@ -6255,9 +6254,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('alert', module.alert)">
                   Alert
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.buttons}"
@@ -6266,9 +6265,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('buttons', module.buttons)">
                   Buttons
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.carousel}"
@@ -6277,13 +6276,13 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('carousel', module.carousel)">
                   Carousel
               </button>
-              
+
                 </div>
-              
-            
-              
+
+
+
                 <div class="btn-group" style="width: 100%;">
-              
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.common}"
@@ -6292,9 +6291,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('common', module.common)">
                   Common
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.dateparser}"
@@ -6303,9 +6302,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('dateparser', module.dateparser)">
                   Dateparser
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.isClass}"
@@ -6314,13 +6313,13 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('isClass', module.isClass)">
                   Is Class
               </button>
-              
+
                 </div>
-              
-            
-              
+
+
+
                 <div class="btn-group" style="width: 100%;">
-              
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.datepicker}"
@@ -6329,9 +6328,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('datepicker', module.datepicker)">
                   Datepicker
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.position}"
@@ -6340,9 +6339,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('position', module.position)">
                   Position
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.datepickerPopup}"
@@ -6351,13 +6350,13 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('datepickerPopup', module.datepickerPopup)">
                   Datepicker Popup
               </button>
-              
+
                 </div>
-              
-            
-              
+
+
+
                 <div class="btn-group" style="width: 100%;">
-              
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.debounce}"
@@ -6366,9 +6365,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('debounce', module.debounce)">
                   Debounce
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.multiMap}"
@@ -6377,9 +6376,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('multiMap', module.multiMap)">
                   Multi Map
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.dropdown}"
@@ -6388,13 +6387,13 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('dropdown', module.dropdown)">
                   Dropdown
               </button>
-              
+
                 </div>
-              
-            
-              
+
+
+
                 <div class="btn-group" style="width: 100%;">
-              
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.stackedMap}"
@@ -6403,9 +6402,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('stackedMap', module.stackedMap)">
                   Stacked Map
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.modal}"
@@ -6414,9 +6413,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('modal', module.modal)">
                   Modal
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.paging}"
@@ -6425,13 +6424,13 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('paging', module.paging)">
                   Paging
               </button>
-              
+
                 </div>
-              
-            
-              
+
+
+
                 <div class="btn-group" style="width: 100%;">
-              
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.pager}"
@@ -6440,9 +6439,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('pager', module.pager)">
                   Pager
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.pagination}"
@@ -6451,9 +6450,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('pagination', module.pagination)">
                   Pagination
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.tooltip}"
@@ -6462,13 +6461,13 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('tooltip', module.tooltip)">
                   Tooltip
               </button>
-              
+
                 </div>
-              
-            
-              
+
+
+
                 <div class="btn-group" style="width: 100%;">
-              
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.popover}"
@@ -6477,9 +6476,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('popover', module.popover)">
                   Popover
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.progressbar}"
@@ -6488,9 +6487,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('progressbar', module.progressbar)">
                   Progressbar
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.rating}"
@@ -6499,13 +6498,13 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('rating', module.rating)">
                   Rating
               </button>
-              
+
                 </div>
-              
-            
-              
+
+
+
                 <div class="btn-group" style="width: 100%;">
-              
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.tabs}"
@@ -6514,9 +6513,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('tabs', module.tabs)">
                   Tabs
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.timepicker}"
@@ -6525,9 +6524,9 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('timepicker', module.timepicker)">
                   Timepicker
               </button>
-              
-            
-              
+
+
+
               <button type="button" class="btn btn-secondary"
                style="width: 33%; border-radius: 0;"
                ng-class="{'btn-primary': module.typeahead}"
@@ -6536,10 +6535,10 @@ Comprehension Angular expression (see <a href="http://docs.angularjs.org/api/ng.
                ng-change="selectedChanged('typeahead', module.typeahead)">
                   Typeahead
               </button>
-              
+
                 </div>
-              
-            
+
+
         </div>
     </div>
     <div class="modal-footer">
