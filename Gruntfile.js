@@ -546,6 +546,7 @@ module.exports = function(grunt) {
         // Step 2, we queue up additional tasks
         grunt.task.run([
             'conventionalChangelog',
+            'html2js',
             'build',
             'copy',
             'shell:release-prepare',
