@@ -76,12 +76,6 @@ module.exports = function(grunt) {
                         src: ['**/*.html'],
                         cwd: 'misc/demo/',
                         dest: 'dist/'
-                    },
-                    {
-                        expand: true,
-                        src: ['svg-icon.css'],
-                        cwd: 'src/',
-                        dest: 'dist/'
                     }
                 ]
             },
