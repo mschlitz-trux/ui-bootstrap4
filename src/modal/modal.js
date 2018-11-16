@@ -48,8 +48,8 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
 /**
  * A helper directive for the $modal service. It creates a backdrop element.
  */
-  .directive('uibModalBackdrop', ['$animate', '$injector', '$uibModalStack',
-  function($animate, $injector, $modalStack) {
+  .directive('uibModalBackdrop', ['$uibModalStack', '$q', '$animate',
+  function($modalStack, $q, $animate) {
     return {
       restrict: 'A',
       compile: function(tElement, tAttrs) {
@@ -59,18 +59,29 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
     };
 
     function linkFn(scope, element, attrs) {
-      if (attrs.modalInClass) {
-        $animate.addClass(element, attrs.modalInClass);
+      // Deferred object that will be resolved when this modal is rendered.
+      var modalRenderDeferObj = $q.defer();
+      // Resolve render promise post-digest
+      scope.$$postDigest(function() {
+        modalRenderDeferObj.resolve();
+      });
 
-        scope.$on($modalStack.NOW_CLOSING_EVENT, function(e, setIsAsync) {
-          var done = setIsAsync();
-          if (scope.modalOptions.animation) {
-            $animate.removeClass(element, attrs.modalInClass).then(done);
-          } else {
-            done();
-          }
-        });
-      }
+      modalRenderDeferObj.promise.then(function() {
+
+        if (attrs.modalInClass) {
+          $animate.addClass(element, attrs.modalInClass);
+
+          scope.$on($modalStack.NOW_CLOSING_EVENT, function(e, setIsAsync) {
+            var done = setIsAsync();
+            if (scope.modalOptions.animation) {
+              $animate.removeClass(element, attrs.modalInClass).then(done);
+            } else {
+              done();
+            }
+          });
+        }
+      });
+
     }
   }])
 
@@ -437,8 +448,8 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
           if (modal.animation) {
             backdropDomEl.attr('modal-animation', 'true');
           }
-          $compile(backdropDomEl)(backdropScope);
-          $animate.enter(backdropDomEl, appendToElement);
+
+          $animate.enter($compile(backdropDomEl)(backdropScope), appendToElement);
           scrollbarPadding = $uibPosition.scrollbarPadding(appendToElement);
           if (scrollbarPadding.heightOverflow && scrollbarPadding.scrollbarWidth) {
             appendToElement.css({paddingRight: scrollbarPadding.right + 'px'});
