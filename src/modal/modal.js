@@ -59,6 +59,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
     };
 
     function linkFn(scope, element, attrs) {
+
       // Deferred object that will be resolved when this modal is rendered.
       var modalRenderDeferObj = $q.defer();
       // Resolve render promise post-digest
@@ -67,20 +68,22 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
       });
 
       modalRenderDeferObj.promise.then(function() {
-
         if (attrs.modalInClass) {
           $animate.addClass(element, attrs.modalInClass);
-
-          scope.$on($modalStack.NOW_CLOSING_EVENT, function(e, setIsAsync) {
-            var done = setIsAsync();
-            if (scope.modalOptions.animation) {
-              $animate.removeClass(element, attrs.modalInClass).then(done);
-            } else {
-              done();
-            }
-          });
         }
       });
+
+      if (attrs.modalInClass) {
+        scope.$on($modalStack.NOW_CLOSING_EVENT, function(e, setIsAsync) {
+          var done = setIsAsync();
+          if (scope.modalOptions.animation) {
+            $animate.removeClass(element, attrs.modalInClass).then(done);
+          } else {
+            done();
+          }
+        });
+      }
+
 
     }
   }])
