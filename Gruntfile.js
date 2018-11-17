@@ -431,8 +431,8 @@ module.exports = function(grunt) {
         const versionsMappingFile = 'dist/versions-mapping.json';
 
         exec('git tag --sort -version:refname', function(error, stdout, stderr) {
-            // Let's remove the oldest 14 versions.
-            const versions = stdout.split('\n').slice(0, -14);
+            // Let's remove the oldest 56 versions.
+            const versions = stdout.split('\n').slice(0, -56);
             let jsContent = versions.map(function(version) {
                 version = version.replace(/^v/, '');
                 return {
