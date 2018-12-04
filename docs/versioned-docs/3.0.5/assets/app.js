@@ -49,31 +49,33 @@ angular.module('ui.bootstrap.demo', ['ui.bootstrap', 'plunker', 'ngTouch', 'ngAn
 .controller('DownloadCtrl', DownloadCtrl);
 
 function MainCtrl($scope, $http, $document, $uibModal, orderByFilter) {
+  $scope.isCollapsed = true;
+
   // Grab old version docs
-    $http.get('/ui-bootstrap4/versions-mapping.json')
-        .then(function(result) {
+  $http.get('/ui-bootstrap4/versions-mapping.json')
+    .then(function(result) {
+      $scope.oldDocs = result.data;
+    })
+    .catch(function(response)
+    {
+      if(response.status === 404)
+      {
+        $http.get('/versions-mapping.json')
+          .then(function(result) {
             $scope.oldDocs = result.data;
-        })
-        .catch(function(response)
-        {
-            if(response.status === 404)
-            {
-                $http.get('/versions-mapping.json')
-                    .then(function(result) {
-                        $scope.oldDocs = result.data;
-                    })
-                    .catch(function(response)
-                    {
-                        console.log('failed to get versions mapping:', response);
-                    });
-            }
-            else
-            {
-                console.log('failed to get versions mapping:', response);
-            }
-        });
-  
-    $scope.showBuildModal = function() {
+          })
+          .catch(function(response)
+          {
+            console.log('failed to get versions mapping:', response);
+          });
+      }
+      else
+      {
+        console.log('failed to get versions mapping:', response);
+      }
+    });
+
+  $scope.showBuildModal = function() {
     var modalInstance = $uibModal.open({
       templateUrl: 'buildModal.html',
       controller: 'SelectModulesCtrl',

@@ -2,7 +2,7 @@
  * ui-bootstrap4
  * http://morgul.github.io/ui-bootstrap4/
 
- * Version: 3.0.6 - 2018-11-17
+ * Version: 3.0.5 - 2018-10-03
  * License: MIT
  */angular.module("ui.bootstrap", ["ui.bootstrap.tpls", "ui.bootstrap.collapse","ui.bootstrap.tabindex","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.common","ui.bootstrap.dateparser","ui.bootstrap.isClass","ui.bootstrap.datepicker","ui.bootstrap.position","ui.bootstrap.datepickerPopup","ui.bootstrap.debounce","ui.bootstrap.multiMap","ui.bootstrap.dropdown","ui.bootstrap.stackedMap","ui.bootstrap.modal","ui.bootstrap.paging","ui.bootstrap.pager","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]);
 angular.module("ui.bootstrap.tpls", ["uib/template/accordion/accordion-group.html","uib/template/accordion/accordion.html","uib/template/alert/alert.html","uib/template/carousel/carousel.html","uib/template/carousel/slide.html","uib/template/datepicker/datepicker.html","uib/template/datepicker/day.html","uib/template/datepicker/month.html","uib/template/datepicker/year.html","uib/template/datepickerPopup/popup.html","uib/template/modal/window.html","uib/template/pager/pager.html","uib/template/pagination/pagination.html","uib/template/tooltip/tooltip-html-popup.html","uib/template/tooltip/tooltip-popup.html","uib/template/tooltip/tooltip-template-popup.html","uib/template/popover/popover-html.html","uib/template/popover/popover-template.html","uib/template/popover/popover.html","uib/template/progressbar/bar.html","uib/template/progressbar/progress.html","uib/template/progressbar/progressbar.html","uib/template/rating/rating.html","uib/template/tabs/tab.html","uib/template/tabs/tabset.html","uib/template/timepicker/timepicker.html","uib/template/typeahead/typeahead-match.html","uib/template/typeahead/typeahead-popup.html"]);
@@ -3882,8 +3882,8 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
 /**
  * A helper directive for the $modal service. It creates a backdrop element.
  */
-  .directive('uibModalBackdrop', ['$uibModalStack', '$q', '$animate',
-  function($modalStack, $q, $animate) {
+  .directive('uibModalBackdrop', ['$animate', '$injector', '$uibModalStack',
+  function($animate, $injector, $modalStack) {
     return {
       restrict: 'A',
       compile: function(tElement, tAttrs) {
@@ -3893,21 +3893,9 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
     };
 
     function linkFn(scope, element, attrs) {
-
-      // Deferred object that will be resolved when this modal is rendered.
-      var modalRenderDeferObj = $q.defer();
-      // Resolve render promise post-digest
-      scope.$$postDigest(function() {
-        modalRenderDeferObj.resolve();
-      });
-
-      modalRenderDeferObj.promise.then(function() {
-        if (attrs.modalInClass) {
-          $animate.addClass(element, attrs.modalInClass);
-        }
-      });
-
       if (attrs.modalInClass) {
+        $animate.addClass(element, attrs.modalInClass);
+
         scope.$on($modalStack.NOW_CLOSING_EVENT, function(e, setIsAsync) {
           var done = setIsAsync();
           if (scope.modalOptions.animation) {
@@ -3917,8 +3905,6 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
           }
         });
       }
-
-
     }
   }])
 
@@ -4285,11 +4271,13 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
           if (modal.animation) {
             backdropDomEl.attr('modal-animation', 'true');
           }
-
-          $animate.enter($compile(backdropDomEl)(backdropScope), appendToElement);
-          scrollbarPadding = $uibPosition.scrollbarPadding(appendToElement);
-          if (scrollbarPadding.heightOverflow && scrollbarPadding.scrollbarWidth) {
-            appendToElement.css({paddingRight: scrollbarPadding.right + 'px'});
+          $compile(backdropDomEl)(backdropScope);
+          $animate.enter(backdropDomEl, appendToElement);
+          if ($uibPosition.isScrollable(appendToElement)) {
+            scrollbarPadding = $uibPosition.scrollbarPadding(appendToElement);
+            if (scrollbarPadding.heightOverflow && scrollbarPadding.scrollbarWidth) {
+              appendToElement.css({paddingRight: scrollbarPadding.right + 'px'});
+            }
           }
         }
 
