@@ -10,7 +10,7 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         ngversion: '1.6.1',
-        bsversion: '4.0.0',
+        bsversion: '4.1.1',
         modules: [],//to be filled in by build task
         pkg: grunt.file.readJSON('package.json'),
         dist: 'dist',
@@ -428,22 +428,26 @@ module.exports = function(grunt) {
 
         const exec = require('child_process').exec;
 
+        grunt.log.writeln(`Mapping file skipped till someone wants to fix.`);
+
+        return;
+
         const versionsMappingFile = 'dist/versions-mapping.json';
 
         exec('git tag --sort -version:refname', function(error, stdout, stderr) {
-            // Let's remove the oldest 55 versions.
-            const versions = stdout.split('\n').slice(0, -55);
+            // Let's remove the oldest 56 versions.
+            const versions = stdout.split('\n').slice(0, -56);
             let jsContent = versions.map(function(version) {
                 version = version.replace(/^v/, '');
                 return {
                     version: version,
-                    url: `/angular-ui-bootstrap4/versioned-docs/${version}`
+                    url: `/ui-bootstrap4/versioned-docs/${version}/index.html`
                 };
             });
             jsContent = _.sortBy(jsContent, 'version').reverse();
             jsContent.unshift({
                 version: 'Current',
-                url: '/angular-ui-bootstrap4'
+                url: '/ui-bootstrap4/index.html'
             });
             grunt.file.write(versionsMappingFile, JSON.stringify(jsContent));
             grunt.log.writeln(`File ${versionsMappingFile.cyan} created.`);
