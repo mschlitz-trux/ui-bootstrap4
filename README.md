@@ -17,7 +17,7 @@ This for makes as few changes as possible to the original source code, so that u
 
 ## 🚨 Help Wanted 🚨
 
-_As of this Aug. 2019, my company no longer has any maintained Angular 1.x code, so I have lost the last of my incentive to work on this. Still happen to click buttons and make releases, but I'm pretty much done writing any code for this._
+_As of this Aug. 2019, my company no longer has any maintained Angular 1.x code, so I have lost the last of my incentive to work on this. Still happy to click buttons and make releases, but I'm pretty much done writing any code for this._
 
 I did this for a work project, and, frankly, we've gotten what we needed out of it. I'd love to see this cleaned up and maybe even maintained... but I just don't have the time myself. I'll accept merge requests, and fight with the build system... but that's basically it. If someone would like to step in, just let me know and I'll add you to the project. Just open an issue, and I'll respond.
 
