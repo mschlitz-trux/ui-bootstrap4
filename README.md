@@ -21,6 +21,16 @@ _As of this Aug. 2019, my company no longer has any maintained Angular 1.x code,
 
 I did this for a work project, and, frankly, we've gotten what we needed out of it. I'd love to see this cleaned up and maybe even maintained... but I just don't have the time myself. I'll accept merge requests, and fight with the build system... but that's basically it. If someone would like to step in, just let me know and I'll add you to the project. Just open an issue, and I'll respond.
 
+### 💵 Incentivising 💵
+
+If you really want your issue fixed and you feel you can't fix it on your own, or your don't want to, I've setup IssueHunt for this project:
+
+* https://issuehunt.io/r/Morgul/ui-bootstrap4
+
+Make an item, and then add some funding, and either myself or someone in the community will likely pick it up. No promises, but it seems worth the experiment.
+
+### Contributing
+
 Wanting to contribute, but not take over the reigns? The things that are really holding this project back are, as I can see it:
 
 * [ ] Undocumented/confusing build system.
@@ -29,8 +39,8 @@ Wanting to contribute, but not take over the reigns? The things that are really 
     * [ ] Getting started with development should be very simple
 * [ ] Switch to ES2015
     * [ ] The code should be cleaned up, and better formatted
-    
-I'll add more as I think of them / have the time.
+	 
+If you can think of more, feel free to make issues.
 
 ---
 
