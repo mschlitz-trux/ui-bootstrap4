@@ -18,7 +18,7 @@ angular.module('plunker', [])
           '    <script src="//ajax.googleapis.com/ajax/libs/angularjs/'+ngVersion+'/angular.js"></script>\n' +
           '    <script src="//ajax.googleapis.com/ajax/libs/angularjs/'+ngVersion+'/angular-animate.js"></script>\n' +
           '    <script src="//ajax.googleapis.com/ajax/libs/angularjs/'+ngVersion+'/angular-sanitize.js"></script>\n' +
-          '    <script src="//morgul.github.io/bootstrap/ui-bootstrap-tpls-'+version+'.js"></script>\n' +
+          '    <script src="//morgul.github.io/ui-bootstrap4/ui-bootstrap-tpls-'+version+'.js"></script>\n' +
           '    <script src="example.js"></script>\n' +
           '    <link href="//netdna.bootstrapcdn.com/bootstrap/'+bsVersion+'/css/bootstrap.min.css" rel="stylesheet">\n' +
           '  </head>\n' +
