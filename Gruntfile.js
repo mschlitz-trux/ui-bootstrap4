@@ -432,27 +432,27 @@ module.exports = function(grunt) {
 
         return;
 
-        const versionsMappingFile = 'dist/versions-mapping.json';
+//         const versionsMappingFile = 'dist/versions-mapping.json';
 
-        exec('git tag --sort -version:refname', function(error, stdout, stderr) {
-            // Let's remove the oldest 56 versions.
-            const versions = stdout.split('\n').slice(0, -56);
-            let jsContent = versions.map(function(version) {
-                version = version.replace(/^v/, '');
-                return {
-                    version: version,
-                    url: `/ui-bootstrap4/versioned-docs/${version}/index.html`
-                };
-            });
-            jsContent = _.sortBy(jsContent, 'version').reverse();
-            jsContent.unshift({
-                version: 'Current',
-                url: '/ui-bootstrap4/index.html'
-            });
-            grunt.file.write(versionsMappingFile, JSON.stringify(jsContent));
-            grunt.log.writeln(`File ${versionsMappingFile.cyan} created.`);
-            done();
-        });
+//         exec('git tag --sort -version:refname', function(error, stdout, stderr) {
+//             // Let's remove the oldest 56 versions.
+//             const versions = stdout.split('\n').slice(0, -56);
+//             let jsContent = versions.map(function(version) {
+//                 version = version.replace(/^v/, '');
+//                 return {
+//                     version: version,
+//                     url: `/ui-bootstrap4/versioned-docs/${version}/index.html`
+//                 };
+//             });
+//             jsContent = _.sortBy(jsContent, 'version').reverse();
+//             jsContent.unshift({
+//                 version: 'Current',
+//                 url: '/ui-bootstrap4/index.html'
+//             });
+//             grunt.file.write(versionsMappingFile, JSON.stringify(jsContent));
+//             grunt.log.writeln(`File ${versionsMappingFile.cyan} created.`);
+//             done();
+//         });
 
     });
 
