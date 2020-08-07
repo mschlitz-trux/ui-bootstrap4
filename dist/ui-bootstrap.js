@@ -1,10 +1,10 @@
 /*
- * ui-bootstrap4
- * http://morgul.github.io/ui-bootstrap4/
+ * angular-ui-bootstrap
+ * http://angular-ui.github.io/bootstrap/
 
- * Version: 3.0.6 - 2018-11-17
+ * Version: 2.5.4 - 2020-08-07
  * License: MIT
- */angular.module("ui.bootstrap", ["ui.bootstrap.collapse","ui.bootstrap.tabindex","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.common","ui.bootstrap.dateparser","ui.bootstrap.isClass","ui.bootstrap.datepicker","ui.bootstrap.position","ui.bootstrap.datepickerPopup","ui.bootstrap.debounce","ui.bootstrap.multiMap","ui.bootstrap.dropdown","ui.bootstrap.stackedMap","ui.bootstrap.modal","ui.bootstrap.paging","ui.bootstrap.pager","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]);
+ */angular.module("ui.bootstrap", ["ui.bootstrap.collapse","ui.bootstrap.tabindex","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.isClass","ui.bootstrap.datepicker","ui.bootstrap.position","ui.bootstrap.datepickerPopup","ui.bootstrap.debounce","ui.bootstrap.multiMap","ui.bootstrap.dropdown","ui.bootstrap.stackedMap","ui.bootstrap.modal","ui.bootstrap.paging","ui.bootstrap.pager","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]);
 angular.module('ui.bootstrap.collapse', [])
 
   .directive('uibCollapse', ['$animate', '$q', '$parse', '$injector', function($animate, $q, $parse, $injector) {
@@ -35,7 +35,7 @@ angular.module('ui.bootstrap.collapse', [])
             cssTo = {height: '0'};
           }
           if (!scope.$eval(attrs.uibCollapse)) {
-            element.addClass('show')
+            element.addClass('in')
               .addClass('collapse')
               .attr('aria-expanded', true)
               .attr('aria-hidden', false)
@@ -51,7 +51,7 @@ angular.module('ui.bootstrap.collapse', [])
         }
 
         function expand() {
-          if (element.hasClass('collapse') && element.hasClass('show')) {
+          if (element.hasClass('collapse') && element.hasClass('in')) {
             return;
           }
 
@@ -64,7 +64,7 @@ angular.module('ui.bootstrap.collapse', [])
 
               if ($animateCss) {
                 $animateCss(element, {
-                  addClass: 'show',
+                  addClass: 'in',
                   easing: 'ease',
                   css: {
                     overflow: 'hidden'
@@ -72,7 +72,7 @@ angular.module('ui.bootstrap.collapse', [])
                   to: getScrollFromElement(element[0])
                 }).start()['finally'](expandDone);
               } else {
-                $animate.addClass(element, 'show', {
+                $animate.addClass(element, 'in', {
                   css: {
                     overflow: 'hidden'
                   },
@@ -90,7 +90,7 @@ angular.module('ui.bootstrap.collapse', [])
         }
 
         function collapse() {
-          if (!element.hasClass('collapse') && !element.hasClass('show')) {
+          if (!element.hasClass('collapse') && !element.hasClass('in')) {
             return collapseDone();
           }
 
@@ -101,7 +101,7 @@ angular.module('ui.bootstrap.collapse', [])
               // Otherwise, the browser attempts to animate from width 0 (in
               // collapsing class) to the given width here.
                 .css(getScrollFromElement(element[0]))
-                // initially all card collapse have the collapse class, this removal
+                // initially all panel collapse have the collapse class, this removal
                 // prevents the animation from jumping to collapsed state
                 .removeClass('collapse')
                 .addClass('collapsing')
@@ -110,11 +110,11 @@ angular.module('ui.bootstrap.collapse', [])
 
               if ($animateCss) {
                 $animateCss(element, {
-                  removeClass: 'show',
+                  removeClass: 'in',
                   to: cssTo
                 }).start()['finally'](collapseDone);
               } else {
-                $animate.removeClass(element, 'show', {
+                $animate.removeClass(element, 'in', {
                   to: cssTo
                 }).then(collapseDone);
               }
@@ -218,7 +218,7 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse', 'ui.bootstrap
     },
     scope: {
       heading: '@',               // Interpolate the heading attribute onto this scope
-      cardClass: '@?',           // Ditto with cardClass
+      panelClass: '@?',           // Ditto with panelClass
       isOpen: '=?',
       isDisabled: '=?'
     },
@@ -228,11 +228,11 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse', 'ui.bootstrap
       };
     },
     link: function(scope, element, attrs, accordionCtrl) {
-      element.addClass('card');
+      element.addClass('panel');
       accordionCtrl.addGroup(scope);
 
-      scope.openClass = attrs.openClass || 'card-open';
-      scope.cardClass = attrs.cardClass || 'card-default';
+      scope.openClass = attrs.openClass || 'panel-open';
+      scope.panelClass = attrs.panelClass || 'panel-default';
       scope.$watch('isOpen', function(value) {
         element.toggleClass(scope.openClass, !!value);
         if (value) {
@@ -250,7 +250,7 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse', 'ui.bootstrap
 
       var id = 'accordiongroup-' + scope.$id + '-' + Math.floor(Math.random() * 10000);
       scope.headingId = id + '-tab';
-      scope.cardId = id + '-card';
+      scope.panelId = id + '-panel';
     }
   };
 })
@@ -698,7 +698,7 @@ angular.module('ui.bootstrap.carousel', [])
       return attrs.templateUrl || 'uib/template/carousel/carousel.html';
     },
     scope: {
-      active: '=?',
+      active: '=',
       interval: '=',
       noTransition: '=',
       noPause: '=',
@@ -720,7 +720,7 @@ angular.module('ui.bootstrap.carousel', [])
       index: '=?'
     },
     link: function (scope, element, attrs, carouselCtrl) {
-      element.addClass('carousel-item');
+      element.addClass('item');
       carouselCtrl.addSlide(scope, element);
       //when the scope is destroyed then remove the slide from the current slides array
       scope.$on('$destroy', function() {
@@ -734,10 +734,9 @@ angular.module('ui.bootstrap.carousel', [])
   };
 }])
 
-.animation('.carousel-item', ['$animateCss',
+.animation('.item', ['$animateCss',
 function($animateCss) {
   var SLIDE_DIRECTION = 'uib-slideDirection';
-  var classPrefix = 'carousel-item-';
 
   function removeClass(element, className, callback) {
     element.removeClass(className);
@@ -751,9 +750,10 @@ function($animateCss) {
       if (className === 'active') {
         var stopped = false;
         var direction = element.data(SLIDE_DIRECTION);
-        var directionClass = direction === 'next' ? classPrefix + 'left' : classPrefix + 'right';
-        var removeClassFn = removeClass.bind(this, element, [directionClass, classPrefix + direction].join(' '), done);
-        element.addClass(classPrefix + direction);
+        var directionClass = direction === 'next' ? 'left' : 'right';
+        var removeClassFn = removeClass.bind(this, element,
+          directionClass + ' ' + direction, done);
+        element.addClass(direction);
 
         $animateCss(element, {addClass: directionClass})
           .start()
@@ -769,7 +769,7 @@ function($animateCss) {
       if (className === 'active') {
         var stopped = false;
         var direction = element.data(SLIDE_DIRECTION);
-        var directionClass = direction === 'next' ? classPrefix + 'left' : classPrefix + 'right';
+        var directionClass = direction === 'next' ? 'left' : 'right';
         var removeClassFn = removeClass.bind(this, element, directionClass, done);
 
         $animateCss(element, {addClass: directionClass})
@@ -784,8 +784,6 @@ function($animateCss) {
     }
   };
 }]);
-
-angular.module('ui.bootstrap.common', []);
 
 angular.module('ui.bootstrap.dateparser', [])
 
@@ -2112,12 +2110,12 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
 
 angular.module('ui.bootstrap.position', [])
 
-  /**
-   * A set of utility methods for working with the DOM.
-   * It is meant to be used where we need to absolute-position elements in
-   * relation to another element (this is the case for tooltips, popovers,
-   * typeahead suggestions etc.).
-   */
+/**
+ * A set of utility methods for working with the DOM.
+ * It is meant to be used where we need to absolute-position elements in
+ * relation to another element (this is the case for tooltips, popovers,
+ * typeahead suggestions etc.).
+ */
   .factory('$uibPosition', ['$document', '$window', function($document, $window) {
     /**
      * Used by scrollbarWidth() function to cache scrollbar's width.
@@ -2252,7 +2250,7 @@ angular.module('ui.bootstrap.position', [])
           heightOverflow: scrollParent.scrollHeight > scrollParent.clientHeight,
           bottom: paddingBottom + scrollbarWidth,
           originalBottom: paddingBottom
-        };
+         };
       },
 
       /**
@@ -2375,27 +2373,33 @@ angular.module('ui.bootstrap.position', [])
        *     <li>**right**: distance to bottom edge of viewport</li>
        *   </ul>
        */
-      offset: function(elem, includeMargins) {
+      offset: function(elem, $hostElem) {
         elem = this.getRawNode(elem);
 
         var elemBCR = elem.getBoundingClientRect();
-        var offset = {
-          width: Math.round(angular.isNumber(elemBCR.width) ? elemBCR.width : elem.offsetWidth),
-          height: Math.round(angular.isNumber(elemBCR.height) ? elemBCR.height : elem.offsetHeight),
-          top: Math.round(elemBCR.top + ($window.pageYOffset || $document[0].documentElement.scrollTop)),
-          left: Math.round(elemBCR.left + ($window.pageXOffset || $document[0].documentElement.scrollLeft))
-        };
+        var hostBCR;
 
-        if (includeMargins) {
-          var styles = window.getComputedStyle(elem);
-          var verticalMargin = this.parseStyle(styles.marginTop) + this.parseStyle(styles.marginBottom);
-          var horisontalMargin = this.parseStyle(styles.marginLeft) + this.parseStyle(styles.marginRight);
+        if ($hostElem) {
+          var offset = $hostElem.offset();
 
-          offset.height += verticalMargin;
-          offset.width += horisontalMargin;
+          hostBCR = {
+            top: offset.top + $hostElem.scrollTop(),
+            left: offset.left + $hostElem.scrollLeft()
+          };
+        }
+        else {
+          hostBCR = {
+            top: $window.pageYOffset || $document[0].documentElement.scrollTop,
+            left: $window.pageXOffset || $document[0].documentElement.scrollLeft
+          };
         }
 
-        return offset;
+        return {
+          width: Math.round(angular.isNumber(elemBCR.width) ? elemBCR.width : elem.offsetWidth),
+          height: Math.round(angular.isNumber(elemBCR.height) ? elemBCR.height : elem.offsetHeight),
+          top: Math.round(elemBCR.top + hostBCR.top),
+          left: Math.round(elemBCR.left + hostBCR.left)
+        };
       },
 
       /**
@@ -2544,10 +2548,9 @@ angular.module('ui.bootstrap.position', [])
        *     <li>right-top</li>
        *     <li>right-bottom</li>
        *   </ul>
-       * @param {boolean=} [appendToBody=false] - Should the top and left values returned
-       *   be calculated from the body element, default is false.
-       * @param {boolean=} [includeMargins=false] - Should margins count into targetElem width
-       *    in position claculation
+       * @param {boolean=} [appendTo=false] - Either a boolean denoting if
+       * we should calculate the offset from the body, or a jqLite element
+       * for us to offset from.
        *
        * @returns {object} An object with the following properties:
        *   <ul>
@@ -2556,26 +2559,22 @@ angular.module('ui.bootstrap.position', [])
        *     <li>**placement**: The resolved placement.</li>
        *   </ul>
        */
-      positionElements: function(hostElem, targetElem, placement, appendToBody, includeMargins) {
+      positionElements: function(hostElem, targetElem, placement, appendTo) {
         hostElem = this.getRawNode(hostElem);
         targetElem = this.getRawNode(targetElem);
+        var appendToBody = appendTo === true;
 
         // need to read from prop to support tests.
         var targetWidth = angular.isDefined(targetElem.offsetWidth) ? targetElem.offsetWidth : targetElem.prop('offsetWidth');
         var targetHeight = angular.isDefined(targetElem.offsetHeight) ? targetElem.offsetHeight : targetElem.prop('offsetHeight');
 
-        if (includeMargins) {
-          var styles = window.getComputedStyle(targetElem);
-          var verticalMargin = this.parseStyle(styles.marginTop) + this.parseStyle(styles.marginBottom);
-          var horisontalMargin = this.parseStyle(styles.marginLeft) + this.parseStyle(styles.marginRight);
-
-          targetHeight += verticalMargin;
-          targetWidth += horisontalMargin;
-        }
-
         placement = this.parsePlacement(placement);
 
-        var hostElemPos = appendToBody ? this.offset(hostElem) : this.position(hostElem);
+        var hostElemPos = appendTo
+          ? appendToBody
+            ? this.offset(hostElem, null)
+            : this.offset(hostElem, appendTo)
+          : this.position(hostElem, false);
         var targetElemPos = {top: 0, left: 0, placement: ''};
 
         if (placement[2]) {
@@ -2588,16 +2587,16 @@ angular.module('ui.bootstrap.position', [])
           };
 
           placement[0] = placement[0] === 'top' && adjustedSize.height > viewportOffset.top && adjustedSize.height <= viewportOffset.bottom ? 'bottom' :
-            placement[0] === 'bottom' && adjustedSize.height > viewportOffset.bottom && adjustedSize.height <= viewportOffset.top ? 'top' :
-              placement[0] === 'left' && adjustedSize.width > viewportOffset.left && adjustedSize.width <= viewportOffset.right ? 'right' :
-                placement[0] === 'right' && adjustedSize.width > viewportOffset.right && adjustedSize.width <= viewportOffset.left ? 'left' :
-                  placement[0];
+                         placement[0] === 'bottom' && adjustedSize.height > viewportOffset.bottom && adjustedSize.height <= viewportOffset.top ? 'top' :
+                         placement[0] === 'left' && adjustedSize.width > viewportOffset.left && adjustedSize.width <= viewportOffset.right ? 'right' :
+                         placement[0] === 'right' && adjustedSize.width > viewportOffset.right && adjustedSize.width <= viewportOffset.left ? 'left' :
+                         placement[0];
 
           placement[1] = placement[1] === 'top' && adjustedSize.height - hostElemPos.height > viewportOffset.bottom && adjustedSize.height - hostElemPos.height <= viewportOffset.top ? 'bottom' :
-            placement[1] === 'bottom' && adjustedSize.height - hostElemPos.height > viewportOffset.top && adjustedSize.height - hostElemPos.height <= viewportOffset.bottom ? 'top' :
-              placement[1] === 'left' && adjustedSize.width - hostElemPos.width > viewportOffset.right && adjustedSize.width - hostElemPos.width <= viewportOffset.left ? 'right' :
-                placement[1] === 'right' && adjustedSize.width - hostElemPos.width > viewportOffset.left && adjustedSize.width - hostElemPos.width <= viewportOffset.right ? 'left' :
-                  placement[1];
+                         placement[1] === 'bottom' && adjustedSize.height - hostElemPos.height > viewportOffset.top && adjustedSize.height - hostElemPos.height <= viewportOffset.bottom ? 'top' :
+                         placement[1] === 'left' && adjustedSize.width - hostElemPos.width > viewportOffset.right && adjustedSize.width - hostElemPos.width <= viewportOffset.left ? 'right' :
+                         placement[1] === 'right' && adjustedSize.width - hostElemPos.width > viewportOffset.left && adjustedSize.width - hostElemPos.width <= viewportOffset.right ? 'left' :
+                         placement[1];
 
           if (placement[1] === 'center') {
             if (PLACEMENT_REGEX.vertical.test(placement[0])) {
@@ -2692,18 +2691,15 @@ angular.module('ui.bootstrap.position', [])
        */
       positionArrow: function(elem, placement) {
         elem = this.getRawNode(elem);
-        var isTooltip = true;
 
-        var innerElem = elem.querySelector('.tooltip-inner');
+        var innerElem = elem.querySelector('.tooltip-inner, .popover-inner');
         if (!innerElem) {
-          if (angular.element(elem).hasClass('popover')) {
-            isTooltip = false;
-          } else {
-            return;
-          }
+          return;
         }
 
-        var arrowElem = elem.querySelector('.arrow');
+        var isTooltip = angular.element(innerElem).hasClass('tooltip-inner');
+
+        var arrowElem = isTooltip ? elem.querySelector('.tooltip-arrow') : elem.querySelector('.arrow');
         if (!arrowElem) {
           return;
         }
@@ -2717,18 +2713,9 @@ angular.module('ui.bootstrap.position', [])
 
         placement = this.parsePlacement(placement);
         if (placement[1] === 'center') {
-          var arrowElemOffset = this.offset(arrowElem, true);
-          if (PLACEMENT_REGEX.vertical.test(placement[0])) {
-            var aHW = arrowElemOffset.width / 2;
-            var eHW = this.offset(elem).width / 2;
-            var left = eHW - aHW;
-            arrowCss.left = '' + left + 'px';
-          } else {
-            var aHH = arrowElemOffset.height / 2;
-            var eHH = this.offset(elem).height / 2;
-            var top = eHH - aHH;
-            arrowCss.top = '' + top + 'px';
-          }
+          // no adjustment necessary - just reset styles
+          angular.element(arrowElem).css(arrowCss);
+          return;
         }
 
         var borderProp = 'border-' + placement[0] + '-width';
@@ -2743,21 +2730,19 @@ angular.module('ui.bootstrap.position', [])
         borderRadiusProp += '-radius';
         var borderRadius = $window.getComputedStyle(isTooltip ? innerElem : elem)[borderRadiusProp];
 
-        if (isTooltip) {
-          switch (placement[0]) {
-            case 'top':
-              arrowCss.bottom = '0';
-              break;
-            case 'bottom':
-              arrowCss.top = '0';
-              break;
-            case 'left':
-              arrowCss.right = '0';
-              break;
-            case 'right':
-              arrowCss.left = '0';
-              break;
-          }
+        switch (placement[0]) {
+          case 'top':
+            arrowCss.bottom = isTooltip ? '0' : '-' + borderWidth;
+            break;
+          case 'bottom':
+            arrowCss.top = isTooltip ? '0' : '-' + borderWidth;
+            break;
+          case 'left':
+            arrowCss.right = isTooltip ? '0' : '-' + borderWidth;
+            break;
+          case 'right':
+            arrowCss.left = isTooltip ? '0' : '-' + borderWidth;
+            break;
         }
 
         arrowCss[placement[1]] = borderRadius;
@@ -2852,9 +2837,7 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
     }
 
     // popup element used to display calendar
-    popupEl = angular.element(
-      "<div uib-datepicker-popup-wrap data-ng-class=\"{'show': isOpen}\"><div uib-datepicker></div></div>"
-    );
+    popupEl = angular.element('<div uib-datepicker-popup-wrap><div uib-datepicker></div></div>');
 
     popupEl.attr({
       'ng-model': 'date',
@@ -3318,7 +3301,7 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
 
 .constant('uibDropdownConfig', {
   appendToOpenClass: 'uib-dropdown-open',
-  openClass: 'show'
+  openClass: 'open'
 })
 
 .service('uibDropdownService', ['$document', '$rootScope', '$$multiMap', function($document, $rootScope, $$multiMap) {
@@ -3421,6 +3404,7 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
       return;
     }
 
+    openScope.focusToggleElement();
     openScope.isOpen = false;
 
     if (!$rootScope.$$phase) {
@@ -3510,8 +3494,8 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
 
   scope.focusDropdownEntry = function(keyCode) {
     var elems = self.dropdownMenu ? //If append to body is used.
-      angular.element(self.dropdownMenu).find('.dropdown-item') :
-      $element.find('div').eq(0).find('a.');
+      angular.element(self.dropdownMenu).find('a') :
+      $element.find('ul').eq(0).find('a');
 
     switch (keyCode) {
       case 40: {
@@ -3534,7 +3518,6 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
         break;
       }
     }
-
     elems[self.selectedOption].focus();
   };
 
@@ -3630,8 +3613,7 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
       self.dropdownMenu.css(css);
     }
 
-    // find openContainer by uib-dropdown-menu directive
-    var openContainer = appendTo ? appendTo : angular.element($element[0].querySelector("[uib-dropdown-menu]"));
+    var openContainer = appendTo ? appendTo : $element;
     var dropdownOpenClass = appendTo ? appendToOpenClass : openClass;
     var hasOpenClass = openContainer.hasClass(dropdownOpenClass);
     var isOnlyOpen = uibDropdownService.isOnlyOpen($scope, appendTo);
@@ -3643,10 +3625,6 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
       } else {
         toggleClass = isOpen ? 'addClass' : 'removeClass';
       }
-
-      // original Bootstrap 4 dropdown sets openClass on both dropdownMenu and element
-      $animate[toggleClass]($element, dropdownOpenClass);
-
       $animate[toggleClass](openContainer, dropdownOpenClass).then(function() {
         if (angular.isDefined(isOpen) && isOpen !== wasOpen) {
           toggleInvoker($scope, { open: !!isOpen });
@@ -3662,7 +3640,6 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
             var newEl = dropdownElement;
             self.dropdownMenu.replaceWith(newEl);
             self.dropdownMenu = newEl;
-            $animate.addClass(self.dropdownMenu, dropdownOpenClass);
             $document.on('keydown', uibDropdownService.keybindFilter);
           });
         });
@@ -3678,7 +3655,7 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
         if (templateScope) {
           templateScope.$destroy();
         }
-        var newEl = angular.element('<div class="dropdown-menu"></div>');
+        var newEl = angular.element('<ul class="dropdown-menu"></ul>');
         self.dropdownMenu.replaceWith(newEl);
         self.dropdownMenu = newEl;
       }
@@ -3748,21 +3725,6 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
 
       element.on('click', toggleDropdown);
 
-      var openDropdown = function(event) {
-        if (event.which === 40 && !dropdownCtrl.isOpen()) {
-          event.preventDefault();
-          event.stopPropagation();
-
-          if (!element.hasClass('disabled') && !attrs.disabled) {
-            scope.$apply(function() {
-              dropdownCtrl.toggle();
-            });
-          }
-        }
-      };
-
-      element.on('keydown', openDropdown);
-
       // WAI-ARIA
       element.attr({ 'aria-haspopup': true, 'aria-expanded': false });
       scope.$watch(dropdownCtrl.isOpen, function(isOpen) {
@@ -3771,7 +3733,6 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
 
       scope.$on('$destroy', function() {
         element.off('click', toggleDropdown);
-        element.off('keydown', openDropdown);
       });
     }
   };
@@ -3881,8 +3842,8 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
 /**
  * A helper directive for the $modal service. It creates a backdrop element.
  */
-  .directive('uibModalBackdrop', ['$uibModalStack', '$q', '$animate',
-  function($modalStack, $q, $animate) {
+  .directive('uibModalBackdrop', ['$animate', '$injector', '$uibModalStack',
+  function($animate, $injector, $modalStack) {
     return {
       restrict: 'A',
       compile: function(tElement, tAttrs) {
@@ -3892,21 +3853,9 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
     };
 
     function linkFn(scope, element, attrs) {
-
-      // Deferred object that will be resolved when this modal is rendered.
-      var modalRenderDeferObj = $q.defer();
-      // Resolve render promise post-digest
-      scope.$$postDigest(function() {
-        modalRenderDeferObj.resolve();
-      });
-
-      modalRenderDeferObj.promise.then(function() {
-        if (attrs.modalInClass) {
-          $animate.addClass(element, attrs.modalInClass);
-        }
-      });
-
       if (attrs.modalInClass) {
+        $animate.addClass(element, attrs.modalInClass);
+
         scope.$on($modalStack.NOW_CLOSING_EVENT, function(e, setIsAsync) {
           var done = setIsAsync();
           if (scope.modalOptions.animation) {
@@ -3916,8 +3865,6 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
           }
         });
       }
-
-
     }
   }])
 
@@ -4275,7 +4222,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
             'class': 'modal-backdrop',
             'ng-style': '{\'z-index\': 1040 + (index && 1 || 0) + index*10}',
             'uib-modal-animation-class': 'fade',
-            'modal-in-class': 'show'
+            'modal-in-class': 'in'
           });
           if (modal.backdropClass) {
             backdropDomEl.addClass(modal.backdropClass);
@@ -4284,11 +4231,13 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
           if (modal.animation) {
             backdropDomEl.attr('modal-animation', 'true');
           }
-
-          $animate.enter($compile(backdropDomEl)(backdropScope), appendToElement);
-          scrollbarPadding = $uibPosition.scrollbarPadding(appendToElement);
-          if (scrollbarPadding.heightOverflow && scrollbarPadding.scrollbarWidth) {
-            appendToElement.css({paddingRight: scrollbarPadding.right + 'px'});
+          $compile(backdropDomEl)(backdropScope);
+          $animate.enter(backdropDomEl, appendToElement);
+          if ($uibPosition.isScrollable(appendToElement)) {
+            scrollbarPadding = $uibPosition.scrollbarPadding(appendToElement);
+            if (scrollbarPadding.heightOverflow && scrollbarPadding.scrollbarWidth) {
+              appendToElement.css({paddingRight: scrollbarPadding.right + 'px'});
+            }
           }
         }
 
@@ -4322,7 +4271,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
           'ng-style': '{\'z-index\': 1050 + $$topModalIndex*10, display: \'block\'}',
           'tabindex': -1,
           'uib-modal-animation-class': 'fade',
-          'modal-in-class': 'show'
+          'modal-in-class': 'in'
         }).append(content);
         if (modal.windowClass) {
           angularDomEl.addClass(modal.windowClass);
@@ -4979,7 +4928,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
   // The default options tooltip and popover.
   var defaultOptions = {
     placement: 'top',
-    placementClassPrefix: 'bs-tooltip-',
+    placementClassPrefix: '',
     animation: true,
     popupDelay: 0,
     popupCloseDelay: 0,
@@ -5095,7 +5044,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
           'class="uib-position-measure ' + prefix + '" ' +
           'tooltip-animation-class="fade"' +
           'uib-tooltip-classes ' +
-          'ng-class="{ show: isOpen }" ' +
+          'ng-class="{ in: isOpen }" ' +
           '>' +
         '</div>';
 
@@ -5111,6 +5060,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             var hideTimeout;
             var positionTimeout;
             var adjustmentTimeout;
+            var appendTo = angular.isDefined(options.appendTo) ? options.appendTo : false;
             var appendToBody = angular.isDefined(options.appendToBody) ? options.appendToBody : false;
             var triggers = getTriggers(undefined);
             var hasEnableExp = angular.isDefined(attrs[prefix + 'Enable']);
@@ -5127,25 +5077,21 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
 
               if (!positionTimeout) {
                 positionTimeout = $timeout(function() {
-                  var placementClasses = $position.parsePlacement(ttScope.placement);
-                  var placement = placementClasses[1] === 'center' ? placementClasses[0] : placementClasses[0] + '-' + placementClasses[1];
-				  
-                  // need to add classes prior to placement to allow correct tooltip width calculations
+                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody || appendTo);
+                  var initialHeight = angular.isDefined(tooltip.offsetHeight) ? tooltip.offsetHeight : tooltip.prop('offsetHeight');
+                  var elementPos = appendToBody ? $position.offset(element) : $position.position(element);
+                  tooltip.css({ top: ttPosition.top + 'px', left: ttPosition.left + 'px' });
+                  var placementClasses = ttPosition.placement.split('-');
+
                   if (!tooltip.hasClass(placementClasses[0])) {
                     tooltip.removeClass(lastPlacement.split('-')[0]);
                     tooltip.addClass(placementClasses[0]);
                   }
 
-                  if (!tooltip.hasClass(options.placementClassPrefix + placement)) {
+                  if (!tooltip.hasClass(options.placementClassPrefix + ttPosition.placement)) {
                     tooltip.removeClass(options.placementClassPrefix + lastPlacement);
-                    tooltip.addClass(options.placementClassPrefix + placement);
+                    tooltip.addClass(options.placementClassPrefix + ttPosition.placement);
                   }
-                  
-                  // Take into account tooltup margins, since boostrap css draws tooltip arrow inside margins
-                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody, true);
-                  var initialHeight = angular.isDefined(tooltip.offsetHeight) ? tooltip.offsetHeight : tooltip.prop('offsetHeight');
-                  var elementPos = appendToBody ? $position.offset(element) : $position.position(element);
-                  tooltip.css({ top: ttPosition.top + 'px', left: ttPosition.left + 'px' });
 
                   adjustmentTimeout = $timeout(function() {
                     var currentHeight = angular.isDefined(tooltip.offsetHeight) ? tooltip.offsetHeight : tooltip.prop('offsetHeight');
@@ -5299,6 +5245,9 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               tooltip = tooltipLinker(tooltipLinkedScope, function(tooltip) {
                 if (appendToBody) {
                   $document.find('body').append(tooltip);
+                }
+                else if(appendTo) {
+                  appendTo.append(tooltip);
                 } else {
                   element.after(tooltip);
                 }
@@ -5318,7 +5267,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
 
               if (tooltip) {
                 tooltip.remove();
-
+                
                 tooltip = null;
                 if (adjustmentTimeout) {
                   $timeout.cancel(adjustmentTimeout);
@@ -5326,7 +5275,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               }
 
               openedTooltips.remove(ttScope);
-
+              
               if (tooltipLinkedScope) {
                 tooltipLinkedScope.$destroy();
                 tooltipLinkedScope = null;
@@ -5532,14 +5481,26 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             ttScope.animation = angular.isDefined(animation) ? !!animation : options.animation;
 
             var appendToBodyVal;
-            var appendKey = prefix + 'AppendToBody';
-            if (appendKey in attrs && attrs[appendKey] === undefined) {
+            var appendToBodyKey = prefix + 'AppendToBody';
+            if (appendToBodyKey in attrs && attrs[appendToBodyKey] === undefined) {
               appendToBodyVal = true;
             } else {
-              appendToBodyVal = scope.$eval(attrs[appendKey]);
+              appendToBodyVal = scope.$eval(attrs[appendToBodyKey]);
             }
 
             appendToBody = angular.isDefined(appendToBodyVal) ? appendToBodyVal : appendToBody;
+
+            var appendToVal;
+            var appendToKey = prefix + 'AppendTo';
+            if (appendToKey in attrs) {
+              if (attrs[appendToKey] === undefined) {
+                throw new Error('Expected DOM selector for prop ' + appendToKey + ' for ' + prefix);
+              }
+
+              appendToVal = element.closest(attrs[appendToKey]);
+            }
+
+            appendTo = angular.isDefined(appendToVal) ? appendToVal : appendTo;
 
             // Make sure tooltip is destroyed and removed.
             scope.$on('$destroy', function onDestroyTooltip() {
@@ -5711,7 +5672,6 @@ angular.module('ui.bootstrap.popover', ['ui.bootstrap.tooltip'])
 
 .directive('uibPopoverTemplate', ['$uibTooltip', function($uibTooltip) {
   return $uibTooltip('uibPopoverTemplate', 'popover', 'click', {
-    placementClassPrefix: 'bs-popover-',
     useContentExp: true
   });
 }])
@@ -5726,7 +5686,6 @@ angular.module('ui.bootstrap.popover', ['ui.bootstrap.tooltip'])
 
 .directive('uibPopoverHtml', ['$uibTooltip', function($uibTooltip) {
   return $uibTooltip('uibPopoverHtml', 'popover', 'click', {
-    placementClassPrefix: 'bs-popover-',
     useContentExp: true
   });
 }])
@@ -5740,9 +5699,7 @@ angular.module('ui.bootstrap.popover', ['ui.bootstrap.tooltip'])
 })
 
 .directive('uibPopover', ['$uibTooltip', function($uibTooltip) {
-  return $uibTooltip('uibPopover', 'popover', 'click', {
-    placementClassPrefix: 'bs-popover-'
-  });
+  return $uibTooltip('uibPopover', 'popover', 'click');
 }]);
 
 angular.module('ui.bootstrap.progressbar', [])
@@ -5830,8 +5787,7 @@ angular.module('ui.bootstrap.progressbar', [])
     require: '^uibProgress',
     scope: {
       value: '=',
-      type: '@',
-      striped: '=?'
+      type: '@'
     },
     templateUrl: 'uib/template/progressbar/bar.html',
     link: function(scope, element, attrs, progressCtrl) {
@@ -5848,8 +5804,7 @@ angular.module('ui.bootstrap.progressbar', [])
     scope: {
       value: '=',
       maxParam: '=?max',
-      type: '@',
-      striped: '=?'
+      type: '@'
     },
     templateUrl: 'uib/template/progressbar/progressbar.html',
     link: function(scope, element, attrs, progressCtrl) {
@@ -7488,10 +7443,9 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
     };
   }]);
 angular.module('ui.bootstrap.carousel').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibCarouselCss && angular.element(document).find('head').prepend('<style type="text/css">.ng-animate.item:not(.left):not(.right){-webkit-transition:0s ease-in-out left;transition:0s ease-in-out left}</style>'); angular.$$uibCarouselCss = true; });
-angular.module('ui.bootstrap.common').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibCommonCss && angular.element(document).find('head').prepend('<style type="text/css">.fa-svg-icon{display:inline-block;vertical-align:middle;min-width:1em;min-height:1em;height:100%;position:relative;top:-1px;}.fa-svg-icon svg{position:absolute;top:0;left:0;width:100%;height:100%;}.fa-svg-icon svg g,.fa-svg-icon svg path{fill:currentColor;}</style>'); angular.$$uibCommonCss = true; });
 angular.module('ui.bootstrap.datepicker').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibDatepickerCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-datepicker .uib-title{width:100%;}.uib-day button,.uib-month button,.uib-year button{min-width:100%;}.uib-left,.uib-right{width:100%}</style>'); angular.$$uibDatepickerCss = true; });
 angular.module('ui.bootstrap.position').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibPositionCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-position-measure{display:block !important;visibility:hidden !important;position:absolute !important;top:-9999px !important;left:-9999px !important;}.uib-position-scrollbar-measure{position:absolute !important;top:-9999px !important;width:50px !important;height:50px !important;overflow:scroll !important;}.uib-position-body-scrollbar-measure{overflow:scroll !important;}</style>'); angular.$$uibPositionCss = true; });
-angular.module('ui.bootstrap.datepickerPopup').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibDatepickerpopupCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-datepicker-popup.dropdown-menu{display:block;float:none;margin:0;}.uib-button-bar{padding:10px;}</style>'); angular.$$uibDatepickerpopupCss = true; });
+angular.module('ui.bootstrap.datepickerPopup').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibDatepickerpopupCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-datepicker-popup.dropdown-menu{display:block;float:none;margin:0;}.uib-button-bar{padding:10px 9px 2px;}</style>'); angular.$$uibDatepickerpopupCss = true; });
 angular.module('ui.bootstrap.tooltip').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTooltipCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style>'); angular.$$uibTooltipCss = true; });
-angular.module('ui.bootstrap.timepicker').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTimepickerCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-time input{width:50px !important;}</style>'); angular.$$uibTimepickerCss = true; });
+angular.module('ui.bootstrap.timepicker').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTimepickerCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-time input{width:50px;}</style>'); angular.$$uibTimepickerCss = true; });
 angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTypeaheadCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style>'); angular.$$uibTypeaheadCss = true; });
