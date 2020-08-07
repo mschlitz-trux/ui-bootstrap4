@@ -22,7 +22,7 @@ module.exports = function(grunt) {
       all: 'angular.module("ui.bootstrap", ["ui.bootstrap.tpls", <%= srcModules %>]);',
       cssInclude: '',
       cssFileBanner: '/* Include this file in your html if you are using the CSP mode. */\n\n',
-      cssFileDest: '<%= dist %>/<%= filename %>-<%= pkg.version %>-csp.css',
+      cssFileDest: '<%= dist %>/<%= filename %>-csp.css',
       banner: [
         '/*',
         ' * <%= pkg.name %>',
@@ -53,7 +53,7 @@ module.exports = function(grunt) {
           footer: '<%= meta.cssInclude %>'
         },
         src: [], //src filled in by build task
-        dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.js'
+        dest: '<%= dist %>/<%= filename %>.js'
       },
       dist_tpls: {
         options: {
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
           footer: '<%= meta.cssInclude %>'
         },
         src: [], //src filled in by build task
-        dest: '<%= dist %>/<%= filename %>-tpls-<%= pkg.version %>.js'
+        dest: '<%= dist %>/<%= filename %>-tpls.js'
       }
     },
     copy: {
@@ -93,11 +93,11 @@ module.exports = function(grunt) {
       },
       dist:{
         src:['<%= concat.dist.dest %>'],
-        dest:'<%= dist %>/<%= filename %>-<%= pkg.version %>.min.js'
+        dest:'<%= dist %>/<%= filename %>.min.js'
       },
       dist_tpls:{
         src:['<%= concat.dist_tpls.dest %>'],
-        dest:'<%= dist %>/<%= filename %>-tpls-<%= pkg.version %>.min.js'
+        dest:'<%= dist %>/<%= filename %>-tpls.min.js'
       }
     },
     html2js: {

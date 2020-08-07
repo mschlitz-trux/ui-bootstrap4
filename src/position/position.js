@@ -263,15 +263,26 @@ angular.module('ui.bootstrap.position', [])
        *     <li>**right**: distance to bottom edge of viewport</li>
        *   </ul>
        */
-      offset: function(elem) {
+      offset: function(elem, $hostElem) {
         elem = this.getRawNode(elem);
 
         var elemBCR = elem.getBoundingClientRect();
+        var hostBCR;
+
+        if ($hostElem) {
+          hostBCR = $hostElem.offset();
+        }
+        else {
+          hostBCR = {
+            top: $window.pageYOffset || $document[0].documentElement.scrollTop,
+            left: $window.pageXOffset || $document[0].documentElement.scrollLeft
+          };
+        }
         return {
           width: Math.round(angular.isNumber(elemBCR.width) ? elemBCR.width : elem.offsetWidth),
           height: Math.round(angular.isNumber(elemBCR.height) ? elemBCR.height : elem.offsetHeight),
-          top: Math.round(elemBCR.top + ($window.pageYOffset || $document[0].documentElement.scrollTop)),
-          left: Math.round(elemBCR.left + ($window.pageXOffset || $document[0].documentElement.scrollLeft))
+          top: Math.round(elemBCR.top + hostBCR.top),
+          left: Math.round(elemBCR.left + hostBCR.left)
         };
       },
 
@@ -421,8 +432,9 @@ angular.module('ui.bootstrap.position', [])
        *     <li>right-top</li>
        *     <li>right-bottom</li>
        *   </ul>
-       * @param {boolean=} [appendToBody=false] - Should the top and left values returned
-       *   be calculated from the body element, default is false.
+       * @param {boolean=} [appendTo=false] - Either a boolean denoting if
+       * we should calculate the offset from the body, or a jqLite element
+       * for us to offset from.
        *
        * @returns {object} An object with the following properties:
        *   <ul>
@@ -431,9 +443,10 @@ angular.module('ui.bootstrap.position', [])
        *     <li>**placement**: The resolved placement.</li>
        *   </ul>
        */
-      positionElements: function(hostElem, targetElem, placement, appendToBody) {
+      positionElements: function(hostElem, targetElem, placement, appendTo) {
         hostElem = this.getRawNode(hostElem);
         targetElem = this.getRawNode(targetElem);
+        var appendToBody = appendTo === true;
 
         // need to read from prop to support tests.
         var targetWidth = angular.isDefined(targetElem.offsetWidth) ? targetElem.offsetWidth : targetElem.prop('offsetWidth');
@@ -441,7 +454,11 @@ angular.module('ui.bootstrap.position', [])
 
         placement = this.parsePlacement(placement);
 
-        var hostElemPos = appendToBody ? this.offset(hostElem) : this.position(hostElem);
+        var hostElemPos = appendTo
+          ? appendToBody
+            ? this.offset(hostElem, null)
+            : this.offset(hostElem, appendTo)
+          : this.position(hostElem, false);
         var targetElemPos = {top: 0, left: 0, placement: ''};
 
         if (placement[2]) {
