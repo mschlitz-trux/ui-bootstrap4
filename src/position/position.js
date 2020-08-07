@@ -270,7 +270,12 @@ angular.module('ui.bootstrap.position', [])
         var hostBCR;
 
         if ($hostElem) {
-          hostBCR = $hostElem.offset();
+          var hostOffset = $hostElem.offset();
+
+          hostBCR = {
+            top: hostOffset.top + $hostElem.scrollTop(),
+            left: hostOffset.left + $hostElem.scrollLeft()
+          };
         }
         else {
           hostBCR = {
