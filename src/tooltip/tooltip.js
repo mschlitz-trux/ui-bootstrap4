@@ -145,6 +145,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             var hideTimeout;
             var positionTimeout;
             var adjustmentTimeout;
+            var appendTo = angular.isDefined(options.appendTo) ? options.appendTo : false;
             var appendToBody = angular.isDefined(options.appendToBody) ? options.appendToBody : false;
             var triggers = getTriggers(undefined);
             var hasEnableExp = angular.isDefined(attrs[prefix + 'Enable']);
@@ -176,7 +177,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                   }
                   
                   // Take into account tooltup margins, since boostrap css draws tooltip arrow inside margins
-                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody, true);
+                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody || appendTo, true);
                   var initialHeight = angular.isDefined(tooltip.offsetHeight) ? tooltip.offsetHeight : tooltip.prop('offsetHeight');
                   var elementPos = appendToBody ? $position.offset(element) : $position.position(element);
                   tooltip.css({ top: ttPosition.top + 'px', left: ttPosition.left + 'px' });
@@ -333,6 +334,9 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               tooltip = tooltipLinker(tooltipLinkedScope, function(tooltip) {
                 if (appendToBody) {
                   $document.find('body').append(tooltip);
+                }
+                else if(appendTo) {
+                  appendTo.append(tooltip);
                 } else {
                   element.after(tooltip);
                 }
@@ -566,14 +570,26 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             ttScope.animation = angular.isDefined(animation) ? !!animation : options.animation;
 
             var appendToBodyVal;
-            var appendKey = prefix + 'AppendToBody';
-            if (appendKey in attrs && attrs[appendKey] === undefined) {
+            var appendToBodyKey = prefix + 'AppendToBody';
+            if (appendToBodyKey in attrs && attrs[appendToBodyKey] === undefined) {
               appendToBodyVal = true;
             } else {
-              appendToBodyVal = scope.$eval(attrs[appendKey]);
+              appendToBodyVal = scope.$eval(attrs[appendToBodyKey]);
             }
 
             appendToBody = angular.isDefined(appendToBodyVal) ? appendToBodyVal : appendToBody;
+
+            var appendToVal;
+            var appendToKey = prefix + 'AppendTo';
+            if (appendToKey in attrs) {
+              if (attrs[appendToKey] === undefined) {
+                throw new Error('Expected DOM selector for prop ' + appendToKey + ' for ' + prefix);
+              }
+
+              appendToVal = $document.find(attrs[appendToKey]);
+            }
+
+            appendTo = angular.isDefined(appendToVal) ? appendToVal : appendTo;
 
             // Make sure tooltip is destroyed and removed.
             scope.$on('$destroy', function onDestroyTooltip() {
