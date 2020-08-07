@@ -582,7 +582,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                 throw new Error('Expected DOM selector for prop ' + appendToKey + ' for ' + prefix);
               }
 
-              appendToVal = $document.find(attrs[appendToKey]);
+              appendToVal = element.closest(attrs[appendToKey]);
             }
 
             appendTo = angular.isDefined(appendToVal) ? appendToVal : appendTo;

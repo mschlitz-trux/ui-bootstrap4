@@ -270,7 +270,12 @@ angular.module('ui.bootstrap.position', [])
         var hostBCR;
 
         if ($hostElem) {
-          hostBCR = $hostElem.offset();
+          var offset = $hostElem.offset();
+
+          hostBCR = {
+            top: offset.top + $hostElem.scrollTop(),
+            left: offset.left + $hostElem.scrollLeft()
+          };
         }
         else {
           hostBCR = {
@@ -278,6 +283,7 @@ angular.module('ui.bootstrap.position', [])
             left: $window.pageXOffset || $document[0].documentElement.scrollLeft
           };
         }
+
         return {
           width: Math.round(angular.isNumber(elemBCR.width) ? elemBCR.width : elem.offsetWidth),
           height: Math.round(angular.isNumber(elemBCR.height) ? elemBCR.height : elem.offsetHeight),
