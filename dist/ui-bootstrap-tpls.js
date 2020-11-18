@@ -5155,12 +5155,8 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               if (!positionTimeout) {
                 positionTimeout = $timeout(function() {
                   var placementClasses = $position.parsePlacement(ttScope.placement);
-                  var placement = placementClasses[1] === 'center' ? placementClasses[0] : placementClasses[0] + '-' + placementClasses[1];
-                  console.log(
-                    ttScope.placement,
-                    placementClasses.slice(),
-                    placement
-                  );
+                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody || appendTo, true);
+                  var placement = ttPosition.placement;
 
                   // need to add classes prior to placement to allow correct tooltip width calculations
                   if (!tooltip.hasClass(placementClasses[0])) {
@@ -5174,16 +5170,8 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                   }
                   
                   // Take into account tooltup margins, since boostrap css draws tooltip arrow inside margins
-                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody || appendTo, true);
                   var initialHeight = angular.isDefined(tooltip.offsetHeight) ? tooltip.offsetHeight : tooltip.prop('offsetHeight');
-
-                  console.log(
-                    ttScope.placement,
-                    placementClasses.slice(),
-                    placement
-                  );
-
-                  var elementPos = appendTo ? $position.offset(element) : $position.position(element);
+                  var elementPos = appendToBody ? $position.offset(element) : $position.position(element);
                   tooltip.css({ top: ttPosition.top + 'px', left: ttPosition.left + 'px' });
 
                   adjustmentTimeout = $timeout(function() {
