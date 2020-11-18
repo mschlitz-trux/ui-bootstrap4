@@ -263,19 +263,18 @@ angular.module('ui.bootstrap.position', [])
        *     <li>**right**: distance to bottom edge of viewport</li>
        *   </ul>
        */
-      offset: function(elem, $hostElem) {
+      offset: function(elem, includeMargins, $hostElem) {
         elem = this.getRawNode(elem);
 
-        var elemBCR = elem.getBoundingClientRect();
-        var hostBCR;
+        var elemBCR = elem.getBoundingClientRect().toJSON();
+        var hostBCR = { top: 0, left: 0 };
 
+        // when being placed relative to another element, we don't care about their offset
+        // since we're parting from the `0, 0` of said host element to position `elem`.
         if ($hostElem) {
           var hostOffset = $hostElem.offset();
-
-          hostBCR = {
-            top: hostOffset.top + $hostElem.scrollTop(),
-            left: hostOffset.left + $hostElem.scrollLeft()
-          };
+          elemBCR.top = elemBCR.top - hostOffset.top;
+          elemBCR.left = elemBCR.left - hostOffset.left;
         }
         else {
           hostBCR = {
@@ -486,8 +485,8 @@ angular.module('ui.bootstrap.position', [])
 
         var hostElemPos = appendTo
           ? appendToBody
-            ? this.offset(hostElem, null)
-            : this.offset(hostElem, appendTo)
+            ? this.offset(hostElem, includeMargins, null)
+            : this.offset(hostElem, includeMargins, appendTo)
           : this.position(hostElem, false);
         var targetElemPos = {top: 0, left: 0, placement: ''};
 
@@ -530,6 +529,7 @@ angular.module('ui.bootstrap.position', [])
             }
           }
         }
+
 
         switch (placement[0]) {
           case 'top':
