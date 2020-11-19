@@ -250,17 +250,19 @@ angular.module('ui.bootstrap.position', [])
       /**
        * Provides read-only equivalent of jQuery's offset function:
        * http://api.jquery.com/offset/ - distance to viewport.  Does
-       * not account for borders, margins, or padding on the body
-       * element.
+       * not account for borders, or padding on the host element.
        *
-       * @param {element} elem - The element to calculate the offset on.
+       * @param {Element} elem - The element to calculate the offset on.
+       * @param {Boolean} includeMargins - consider margins for calculating elem's width/height
+       * @param {jqLite.Element} $hostElem - relative parent if we're calculating offset to a custom host
+       *
        *
        * @returns {object} An object with the following properties:
        *   <ul>
        *     <li>**width**: the width of the element</li>
        *     <li>**height**: the height of the element</li>
-       *     <li>**top**: distance to top edge of viewport</li>
-       *     <li>**right**: distance to bottom edge of viewport</li>
+       *     <li>**top**: distance to top edge of host element</li>
+       *     <li>**right**: distance to bottom edge of host element</li>
        *   </ul>
        */
       offset: function(elem, includeMargins, $hostElem) {
