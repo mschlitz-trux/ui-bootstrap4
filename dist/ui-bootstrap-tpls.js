@@ -2,7 +2,7 @@
  * ui-bootstrap4
  * http://morgul.github.io/ui-bootstrap4/
 
- * Version: 3.0.6 - 2018-11-17
+ * Version: 3.0.6 - 2020-11-19
  * License: MIT
  */angular.module("ui.bootstrap", ["ui.bootstrap.tpls", "ui.bootstrap.collapse","ui.bootstrap.tabindex","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.common","ui.bootstrap.dateparser","ui.bootstrap.isClass","ui.bootstrap.datepicker","ui.bootstrap.position","ui.bootstrap.datepickerPopup","ui.bootstrap.debounce","ui.bootstrap.multiMap","ui.bootstrap.dropdown","ui.bootstrap.stackedMap","ui.bootstrap.modal","ui.bootstrap.paging","ui.bootstrap.pager","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]);
 angular.module("ui.bootstrap.tpls", ["uib/template/accordion/accordion-group.html","uib/template/accordion/accordion.html","uib/template/alert/alert.html","uib/template/carousel/carousel.html","uib/template/carousel/slide.html","uib/template/datepicker/datepicker.html","uib/template/datepicker/day.html","uib/template/datepicker/month.html","uib/template/datepicker/year.html","uib/template/datepickerPopup/popup.html","uib/template/modal/window.html","uib/template/pager/pager.html","uib/template/pagination/pagination.html","uib/template/tooltip/tooltip-html-popup.html","uib/template/tooltip/tooltip-popup.html","uib/template/tooltip/tooltip-template-popup.html","uib/template/popover/popover-html.html","uib/template/popover/popover-template.html","uib/template/popover/popover.html","uib/template/progressbar/bar.html","uib/template/progressbar/progress.html","uib/template/progressbar/progressbar.html","uib/template/rating/rating.html","uib/template/tabs/tab.html","uib/template/tabs/tabset.html","uib/template/timepicker/timepicker.html","uib/template/typeahead/typeahead-match.html","uib/template/typeahead/typeahead-popup.html"]);
@@ -2363,28 +2363,46 @@ angular.module('ui.bootstrap.position', [])
       /**
        * Provides read-only equivalent of jQuery's offset function:
        * http://api.jquery.com/offset/ - distance to viewport.  Does
-       * not account for borders, margins, or padding on the body
-       * element.
+       * not account for borders, or padding on the host element.
        *
-       * @param {element} elem - The element to calculate the offset on.
+       * @param {Element} elem - The element to calculate the offset on.
+       * @param {Boolean} includeMargins - consider margins for calculating elem's width/height
+       * @param {jqLite.Element} $hostElem - relative parent if we're calculating offset to a custom host
+       *
        *
        * @returns {object} An object with the following properties:
        *   <ul>
        *     <li>**width**: the width of the element</li>
        *     <li>**height**: the height of the element</li>
-       *     <li>**top**: distance to top edge of viewport</li>
-       *     <li>**right**: distance to bottom edge of viewport</li>
+       *     <li>**top**: distance to top edge of host element</li>
+       *     <li>**right**: distance to bottom edge of host element</li>
        *   </ul>
        */
-      offset: function(elem, includeMargins) {
+      offset: function(elem, includeMargins, $hostElem) {
         elem = this.getRawNode(elem);
 
-        var elemBCR = elem.getBoundingClientRect();
-        var offset = {
+        var elemBCR = elem.getBoundingClientRect().toJSON();
+        var hostBCR = { top: 0, left: 0 };
+
+        // when being placed relative to another element, we don't care about their offset
+        // since we're parting from the `0, 0` of said host element to position `elem`.
+        if ($hostElem) {
+          var hostOffset = $hostElem.offset();
+          elemBCR.top = elemBCR.top - hostOffset.top;
+          elemBCR.left = elemBCR.left - hostOffset.left;
+        }
+        else {
+          hostBCR = {
+            top: $window.pageYOffset || $document[0].documentElement.scrollTop,
+            left: $window.pageXOffset || $document[0].documentElement.scrollLeft
+          };
+        }
+
+        const offset = {
           width: Math.round(angular.isNumber(elemBCR.width) ? elemBCR.width : elem.offsetWidth),
           height: Math.round(angular.isNumber(elemBCR.height) ? elemBCR.height : elem.offsetHeight),
-          top: Math.round(elemBCR.top + ($window.pageYOffset || $document[0].documentElement.scrollTop)),
-          left: Math.round(elemBCR.left + ($window.pageXOffset || $document[0].documentElement.scrollLeft))
+          top: Math.round(elemBCR.top + hostBCR.top),
+          left: Math.round(elemBCR.left + hostBCR.left)
         };
 
         if (includeMargins) {
@@ -2549,6 +2567,9 @@ angular.module('ui.bootstrap.position', [])
        *   be calculated from the body element, default is false.
        * @param {boolean=} [includeMargins=false] - Should margins count into targetElem width
        *    in position claculation
+       * @param {boolean=} [appendTo=false] - Either a boolean denoting if
+       * we should calculate the offset from the body, or a jqLite element
+       * for us to offset from.
        *
        * @returns {object} An object with the following properties:
        *   <ul>
@@ -2557,9 +2578,10 @@ angular.module('ui.bootstrap.position', [])
        *     <li>**placement**: The resolved placement.</li>
        *   </ul>
        */
-      positionElements: function(hostElem, targetElem, placement, appendToBody, includeMargins) {
+      positionElements: function(hostElem, targetElem, placement, appendTo, includeMargins) {
         hostElem = this.getRawNode(hostElem);
         targetElem = this.getRawNode(targetElem);
+        var appendToBody = appendTo === true;
 
         // need to read from prop to support tests.
         var targetWidth = angular.isDefined(targetElem.offsetWidth) ? targetElem.offsetWidth : targetElem.prop('offsetWidth');
@@ -2576,7 +2598,11 @@ angular.module('ui.bootstrap.position', [])
 
         placement = this.parsePlacement(placement);
 
-        var hostElemPos = appendToBody ? this.offset(hostElem) : this.position(hostElem);
+        var hostElemPos = appendTo
+          ? appendToBody
+            ? this.offset(hostElem, includeMargins, null)
+            : this.offset(hostElem, includeMargins, appendTo)
+          : this.position(hostElem, false);
         var targetElemPos = {top: 0, left: 0, placement: ''};
 
         if (placement[2]) {
@@ -2618,6 +2644,7 @@ angular.module('ui.bootstrap.position', [])
             }
           }
         }
+
 
         switch (placement[0]) {
           case 'top':
@@ -5112,6 +5139,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             var hideTimeout;
             var positionTimeout;
             var adjustmentTimeout;
+            var appendTo = angular.isDefined(options.appendTo) ? options.appendTo : false;
             var appendToBody = angular.isDefined(options.appendToBody) ? options.appendToBody : false;
             var triggers = getTriggers(undefined);
             var hasEnableExp = angular.isDefined(attrs[prefix + 'Enable']);
@@ -5129,9 +5157,9 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               if (!positionTimeout) {
                 positionTimeout = $timeout(function() {
                   var placementClasses = $position.parsePlacement(ttScope.placement);
-                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody, true);
+                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody || appendTo, true);
                   var placement = ttPosition.placement;
-				  
+
                   // need to add classes prior to placement to allow correct tooltip width calculations
                   if (!tooltip.hasClass(placementClasses[0])) {
                     tooltip.removeClass(lastPlacement.split('-')[0]);
@@ -5144,7 +5172,6 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                   }
                   
                   // Take into account tooltup margins, since boostrap css draws tooltip arrow inside margins
-                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody, true);
                   var initialHeight = angular.isDefined(tooltip.offsetHeight) ? tooltip.offsetHeight : tooltip.prop('offsetHeight');
                   var elementPos = appendToBody ? $position.offset(element) : $position.position(element);
                   tooltip.css({ top: ttPosition.top + 'px', left: ttPosition.left + 'px' });
@@ -5301,6 +5328,9 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               tooltip = tooltipLinker(tooltipLinkedScope, function(tooltip) {
                 if (appendToBody) {
                   $document.find('body').append(tooltip);
+                }
+                else if(appendTo) {
+                  appendTo.append(tooltip);
                 } else {
                   element.after(tooltip);
                 }
@@ -5534,14 +5564,26 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             ttScope.animation = angular.isDefined(animation) ? !!animation : options.animation;
 
             var appendToBodyVal;
-            var appendKey = prefix + 'AppendToBody';
-            if (appendKey in attrs && attrs[appendKey] === undefined) {
+            var appendToBodyKey = prefix + 'AppendToBody';
+            if (appendToBodyKey in attrs && attrs[appendToBodyKey] === undefined) {
               appendToBodyVal = true;
             } else {
-              appendToBodyVal = scope.$eval(attrs[appendKey]);
+              appendToBodyVal = scope.$eval(attrs[appendToBodyKey]);
             }
 
             appendToBody = angular.isDefined(appendToBodyVal) ? appendToBodyVal : appendToBody;
+
+            var appendToVal;
+            var appendToKey = prefix + 'AppendTo';
+            if (appendToKey in attrs) {
+              if (attrs[appendToKey] === undefined) {
+                throw new Error('Expected DOM selector for prop ' + appendToKey + ' for ' + prefix);
+              }
+
+              appendToVal = element.closest(attrs[appendToKey]);
+            }
+
+            appendTo = angular.isDefined(appendToVal) ? appendToVal : appendTo;
 
             // Make sure tooltip is destroyed and removed.
             scope.$on('$destroy', function onDestroyTooltip() {
@@ -7827,7 +7869,7 @@ angular.module("uib/template/tabs/tab.html", []).run(["$templateCache", function
 angular.module("uib/template/tabs/tabset.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("uib/template/tabs/tabset.html",
     "<div>\n" +
-    "  <ul class=\"nav nav-{{tabset.type || 'tabs'}}\" ng-class=\"{'nav-stacked': vertical, 'nav-justified': justified}\" ng-transclude></ul>\n" +
+    "  <ul class=\"nav nav-{{tabset.type || 'tabs'}}\" ng-class=\"{'nav-stacked flex-column': vertical, 'nav-justified': justified}\" ng-transclude></ul>\n" +
     "  <div class=\"tab-content\">\n" +
     "    <div class=\"tab-pane\"\n" +
     "         ng-repeat=\"tab in tabset.tabs\"\n" +
