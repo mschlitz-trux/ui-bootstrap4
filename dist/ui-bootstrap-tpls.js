@@ -6260,6 +6260,7 @@ angular.module('ui.bootstrap.timepicker', [])
   mousewheel: true,
   arrowkeys: true,
   showSpinners: true,
+  meridianBtnClass: 'btn-secondary',
   templateUrl: 'uib/template/timepicker/timepicker.html'
 })
 
@@ -6273,6 +6274,8 @@ angular.module('ui.bootstrap.timepicker', [])
 
   $scope.tabindex = angular.isDefined($attrs.tabindex) ? $attrs.tabindex : 0;
   $element.removeAttr('tabindex');
+
+  $scope.meridianBtnClass = angular.isDefined($attrs.meridianBtnClass) ? $scope.$parent.$eval($attrs.meridianBtnClass) : timepickerConfig.meridianBtnClass;
 
   this.init = function(ngModelCtrl_, inputs) {
     ngModelCtrl = ngModelCtrl_;
@@ -7924,7 +7927,7 @@ angular.module("uib/template/timepicker/timepicker.html", []).run(["$templateCac
     "      <td class=\"form-group uib-time seconds\" ng-class=\"{'has-error': invalidSeconds}\" ng-show=\"showSeconds\">\n" +
     "        <input type=\"text\" placeholder=\"SS\" ng-model=\"seconds\" ng-change=\"updateSeconds()\" class=\"form-control text-center\" ng-readonly=\"readonlyInput\" maxlength=\"2\" tabindex=\"{{::tabindex}}\" ng-disabled=\"noIncrementSeconds()\" ng-blur=\"blur()\">\n" +
     "      </td>\n" +
-    "      <td ng-show=\"showMeridian\" class=\"uib-time am-pm\"><button type=\"button\" ng-class=\"{disabled: noToggleMeridian()}\" class=\"btn btn-secondary text-center\" ng-click=\"toggleMeridian()\" ng-disabled=\"noToggleMeridian()\" tabindex=\"{{::tabindex}}\">{{meridian}}</button></td>\n" +
+    "      <td ng-show=\"showMeridian\" class=\"uib-time am-pm\"><button type=\"button\" ng-class=\"[meridianBtnClass, {disabled: noToggleMeridian()}]\" class=\"btn btn-secondary text-center\" ng-click=\"toggleMeridian()\" ng-disabled=\"noToggleMeridian()\" tabindex=\"{{::tabindex}}\">{{meridian}}</button></td>\n" +
     "    </tr>\n" +
     "    <tr class=\"text-center\" ng-show=\"::showSpinners\">\n" +
     "      <td class=\"uib-decrement hours\">\n" +
