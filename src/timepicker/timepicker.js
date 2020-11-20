@@ -11,6 +11,7 @@ angular.module('ui.bootstrap.timepicker', [])
   mousewheel: true,
   arrowkeys: true,
   showSpinners: true,
+  meridianBtnClass: 'btn-secondary',
   templateUrl: 'uib/template/timepicker/timepicker.html'
 })
 
@@ -24,6 +25,8 @@ angular.module('ui.bootstrap.timepicker', [])
 
   $scope.tabindex = angular.isDefined($attrs.tabindex) ? $attrs.tabindex : 0;
   $element.removeAttr('tabindex');
+
+  $scope.meridianBtnClass = angular.isDefined($attrs.meridianBtnClass) ? $scope.$parent.$eval($attrs.meridianBtnClass) : timepickerConfig.meridianBtnClass;
 
   this.init = function(ngModelCtrl_, inputs) {
     ngModelCtrl = ngModelCtrl_;
