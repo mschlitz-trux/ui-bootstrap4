@@ -52,7 +52,8 @@ angular.module('ui.bootstrap.position', [])
        */
       parseStyle: function(value) {
         value = parseFloat(value);
-        return isFinite(value) ? value : 0;
+        // Math.abs to consider negative margins
+        return isFinite(value) ? Math.abs(value) : 0;
       },
 
       /**
