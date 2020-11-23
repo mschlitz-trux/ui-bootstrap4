@@ -163,14 +163,16 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               if (!positionTimeout) {
                 positionTimeout = $timeout(function() {
                   var placementClasses = $position.parsePlacement(ttScope.placement);
-                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody || appendTo, true);
-                  var placement = ttPosition.placement;
-
-                  // need to add classes prior to placement to allow correct tooltip width calculations
+                  
+                  // need to add classes prior to placement to allow correct tooltip size calculations
                   if (!tooltip.hasClass(placementClasses[0])) {
                     tooltip.removeClass(lastPlacement.split('-')[0]);
-                    tooltip.addClass(placementClasses[0]);
+                    tooltip.addClass(options.placementClassPrefix + placementClasses[0]);
                   }
+                  
+                  // calculate proper positioning based on available space
+                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody || appendTo, true);
+                  var placement = ttPosition.placement;
 
                   if (!tooltip.hasClass(options.placementClassPrefix + placement)) {
                     tooltip.removeClass(options.placementClassPrefix + lastPlacement);
@@ -690,7 +692,7 @@ function ($animate, $sce, $compile, $templateRequest) {
         // // There are no top-left etc... classes
         // // in TWBS, so we need the primary position.
         var position = $uibPosition.parsePlacement(scope.placement);
-        element.addClass(position[0]);
+        element.addClass('bs-tooltip-' + position[0]);
       }
 
       if (scope.popupClass) {
