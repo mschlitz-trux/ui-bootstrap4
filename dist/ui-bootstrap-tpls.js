@@ -5158,10 +5158,11 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               if (!positionTimeout) {
                 positionTimeout = $timeout(function() {
                   var placementClasses = $position.parsePlacement(ttScope.placement);
-                  
+
                   // need to add classes prior to placement to allow correct tooltip size calculations
-                  if (!tooltip.hasClass(placementClasses[0])) {
-                    tooltip.removeClass(lastPlacement.split('-')[0]);
+                  if (!tooltip.hasClass(options.placementClassPrefix + placementClasses[0])) {
+                    tooltip.removeClass(lastPlacement);
+                    tooltip.removeClass(options.placementClassPrefix + lastPlacement);
                     tooltip.addClass(options.placementClassPrefix + placementClasses[0]);
                   }
                   
@@ -5170,7 +5171,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                   var placement = ttPosition.placement;
 
                   if (!tooltip.hasClass(options.placementClassPrefix + placement)) {
-                    tooltip.removeClass(options.placementClassPrefix + lastPlacement);
+                    tooltip.removeClass(options.placementClassPrefix + placementClasses[0]);
                     tooltip.addClass(options.placementClassPrefix + placement);
                   }
                   
@@ -5197,7 +5198,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                   } else if (lastPlacement !== ttPosition.placement) {
                     $position.positionArrow(tooltip, ttPosition.placement);
                   }
-                  lastPlacement = ttPosition.placement;
+                  lastPlacement = placement;
 
                   positionTimeout = null;
                 }, 0, false);
@@ -5684,10 +5685,11 @@ function ($animate, $sce, $compile, $templateRequest) {
       // arrow has space during position measure.
       // tooltip.positionTooltip()
       if (scope.placement) {
+        var classPrefix = element.hasClass('popover') ? 'bs-popover-' : 'bs-tooltip-';
         // // There are no top-left etc... classes
         // // in TWBS, so we need the primary position.
         var position = $uibPosition.parsePlacement(scope.placement);
-        element.addClass('bs-tooltip-' + position[0]);
+        element.addClass(classPrefix + position[0]);
       }
 
       if (scope.popupClass) {
