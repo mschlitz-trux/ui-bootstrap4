@@ -25,6 +25,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
     'mouseenter': 'mouseleave',
     'click': 'click',
     'outsideClick': 'outsideClick',
+    'dismissClick': 'dismissClick',
     'focus': 'blur',
     'none': ''
   };
@@ -209,6 +210,8 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             // By default, the tooltip is not open.
             // TODO add ability to start tooltip opened
             ttScope.isOpen = false;
+            
+            ttScope.isLoading = false;
 
             function toggleTooltipBind() {
               if (!ttScope.isOpen) {
@@ -511,6 +514,8 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               triggers.show.forEach(function(trigger) {
                 if (trigger === 'outsideClick') {
                   element.off('click', toggleTooltipBind);
+                } else if (trigger === 'dismissClick') {
+                  element.off('click', hideTooltipBind);
                 } else {
                   element.off(trigger, showTooltipBind);
                   element.off(trigger, toggleTooltipBind);
@@ -518,7 +523,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                 element.off('keypress', hideOnEscapeKey);
               });
               triggers.hide.forEach(function(trigger) {
-                if (trigger === 'outsideClick') {
+                if (trigger === 'outsideClick' || trigger === 'dismissClick') {
                   $document.off('click', bodyHideTooltipBind);
                 } else {
                   element.off(trigger, hideTooltipBind);
@@ -548,6 +553,9 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                 triggers.show.forEach(function(trigger, idx) {
                   if (trigger === 'outsideClick') {
                     element.on('click', toggleTooltipBind);
+                    $document.on('click', bodyHideTooltipBind);
+                  } else if (trigger === 'dismissClick') {
+                    element.on('click', hideTooltipBind);
                     $document.on('click', bodyHideTooltipBind);
                   } else if (trigger === triggers.hide[idx]) {
                     element.on(trigger, toggleTooltipBind);
