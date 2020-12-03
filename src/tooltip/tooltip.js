@@ -173,7 +173,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                   }
                   
                   // calculate proper positioning based on available space
-                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody || appendTo, true);
+                  var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendTo || appendToBody, true);
                   var placement = ttPosition.placement;
 
                   if (!tooltip.hasClass(options.placementClassPrefix + placement)) {
@@ -338,12 +338,13 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
 
               tooltipLinkedScope = ttScope.$new();
               tooltip = tooltipLinker(tooltipLinkedScope, function(tooltip) {
-                if (appendToBody) {
+                if (appendTo) {
+                  appendTo.append(tooltip);
+                }
+                else if (appendToBody) {
                   $document.find('body').append(tooltip);
                 }
-                else if(appendTo) {
-                  appendTo.append(tooltip);
-                } else {
+                else {
                   element.after(tooltip);
                 }
               });
@@ -362,7 +363,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
 
               if (tooltip) {
                 tooltip.remove();
-
+                
                 tooltip = null;
                 if (adjustmentTimeout) {
                   $timeout.cancel(adjustmentTimeout);
@@ -370,7 +371,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               }
 
               openedTooltips.remove(ttScope);
-
+              
               if (tooltipLinkedScope) {
                 tooltipLinkedScope.$destroy();
                 tooltipLinkedScope = null;
@@ -598,6 +599,10 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               }
 
               appendToVal = element.closest(attrs[appendToKey]);
+
+              if(!appendToVal.length) {
+                appendToVal = null;
+              }
             }
 
             appendTo = angular.isDefined(appendToVal) ? appendToVal : appendTo;
