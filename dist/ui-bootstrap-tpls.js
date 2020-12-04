@@ -1433,6 +1433,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
 
 .constant('uibDatepickerConfig', {
   datepickerMode: 'day',
+  datepickerTemplateUrl: 'uib/template/datepicker/datepicker.html',
   formatDay: 'dd',
   formatMonth: 'MMMM',
   formatYear: 'yyyy',
@@ -2039,10 +2040,10 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   };
 }])
 
-.directive('uibDatepicker', function() {
+.directive('uibDatepicker', ['uibDatepickerConfig', function(uibDatepickerConfig) {
   return {
     templateUrl: function(element, attrs) {
-      return attrs.templateUrl || 'uib/template/datepicker/datepicker.html';
+      return uibDatepickerConfig.datepickerTemplateUrl || attrs.templateUrl || 'uib/template/datepicker/datepicker.html';
     },
     scope: {
       datepickerOptions: '=?'
@@ -2057,7 +2058,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
       datepickerCtrl.init(ngModelCtrl);
     }
   };
-})
+}])
 
 .directive('uibDaypicker', function() {
   return {
