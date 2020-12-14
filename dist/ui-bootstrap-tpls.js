@@ -2687,7 +2687,7 @@ angular.module('ui.bootstrap.position', [])
 
         targetElemPos.top = Math.round(targetElemPos.top);
         targetElemPos.left = Math.round(targetElemPos.left);
-        /* remove half pixel fro centering on even-pixel element width/height */
+        /* remove half pixel for centering on even-pixel element width/height */
         if (hostElemPos.height % 2 === 0) {
           targetElemPos.top -= 0.5;
         }
