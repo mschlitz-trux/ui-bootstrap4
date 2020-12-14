@@ -475,21 +475,21 @@ angular.module('ui.bootstrap.position', [])
         var targetWidth = angular.isDefined(targetElem.offsetWidth) ? targetElem.offsetWidth : targetElem.prop('offsetWidth');
         var targetHeight = angular.isDefined(targetElem.offsetHeight) ? targetElem.offsetHeight : targetElem.prop('offsetHeight');
 
-        if (includeMargins) {
-          var styles = window.getComputedStyle(targetElem);
-          var verticalMargin = this.parseStyle(styles.marginTop) + this.parseStyle(styles.marginBottom);
-          var horisontalMargin = this.parseStyle(styles.marginLeft) + this.parseStyle(styles.marginRight);
+        // if (includeMargins) {
+        //   var styles = window.getComputedStyle(targetElem);
+        //   var verticalMargin = this.parseStyle(styles.marginTop) + this.parseStyle(styles.marginBottom);
+        //   var horisontalMargin = this.parseStyle(styles.marginLeft) + this.parseStyle(styles.marginRight);
 
-          targetHeight += verticalMargin;
-          targetWidth += horisontalMargin;
-        }
+        //   targetHeight += verticalMargin;
+        //   targetWidth += horisontalMargin;
+        // }
 
         placement = this.parsePlacement(placement);
 
         var hostElemPos = appendTo
           ? appendToBody
-            ? this.offset(hostElem, includeMargins, null)
-            : this.offset(hostElem, includeMargins, appendTo)
+            ? this.offset(hostElem, false, null)
+            : this.offset(hostElem, false, appendTo)
           : this.position(hostElem, false);
         var targetElemPos = {top: 0, left: 0, placement: ''};
 
@@ -573,6 +573,14 @@ angular.module('ui.bootstrap.position', [])
 
         targetElemPos.top = Math.round(targetElemPos.top);
         targetElemPos.left = Math.round(targetElemPos.left);
+        /* remove half pixel fro centering on even-pixel element width/height */
+        if (hostElemPos.height % 2 === 0) {
+          targetElemPos.top -= 0.5;
+        }
+        if (hostElemPos.width % 2 === 0) {
+          targetElemPos.left -= 0.5;
+        }
+
         targetElemPos.placement = placement[1] === 'center' ? placement[0] : placement[0] + '-' + placement[1];
 
         return targetElemPos;
