@@ -3728,6 +3728,34 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
       setIsOpen($scope, isOpen);
     }
   });
+
+  scope.$on('$destroy', function() {
+    var appendTo = null,
+      appendToBody = false;
+
+    if (angular.isDefined($attrs.dropdownAppendTo)) {
+      var appendToEl = $parse($attrs.dropdownAppendTo)(scope);
+      if (appendToEl) {
+        appendTo = angular.element(appendToEl);
+      }
+    }
+
+    if (angular.isDefined($attrs.dropdownAppendToBody)) {
+      var appendToBodyValue = $parse($attrs.dropdownAppendToBody)(scope);
+      if (appendToBodyValue !== false) {
+        appendToBody = true;
+      }
+    }
+
+    if (appendToBody && !appendTo) {
+      appendTo = body;
+    }
+
+    var openContainer = appendTo ? appendTo : angular.element($element[0].querySelector("[uib-dropdown-menu]"));
+    var dropdownOpenClass = appendTo ? appendToOpenClass : openClass;
+    openContainer.removeClass(dropdownOpenClass);
+    uibDropdownService.close(scope, $element, appendTo);
+  });
 }])
 
 .directive('uibDropdown', function() {
